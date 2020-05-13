@@ -1,0 +1,39 @@
+{
+  "name": "mtg-life-counter-online",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write server/*.js client/**/*.{js,jsx}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryanng412/MTG-Life-Counter-Online.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bryanng412/MTG-Life-Counter-Online/issues"
+  },
+  "homepage": "https://github.com/bryanng412/MTG-Life-Counter-Online#readme",
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
+    "prettier": "^2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*./server/*.{js,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*./client/*.{js,jsx,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
