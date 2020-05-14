@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useLastMessage } from 'use-socketio'
 import styled from '@emotion/styled'
 import PlayerItem from './PlayerItem'
+import Waiting from './Waiting'
 import { findIndex } from '../utils/find-index'
 import move from 'array-move'
 
@@ -51,7 +52,7 @@ const PlayerList = () => {
       ))}
     </StyledList>
   ) : (
-    <div>Waiting for players to join</div>
+    <Waiting />
   )
 }
 
