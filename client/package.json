@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "@chakra-ui/core": "^0.7.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "@popmotion/popcorn": "^0.4.4",
+    "array-move": "^2.2.1",
+    "emotion-theming": "^10.0.27",
+    "framer-motion": "^1.10.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "use-socketio": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

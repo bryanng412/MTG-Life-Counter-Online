@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bryanng412/MTG-Life-Counter-Online#readme",
   "devDependencies": {
+    "eslint": "6.6.0",
     "prettier": "^2.0.5"
   }
 }
