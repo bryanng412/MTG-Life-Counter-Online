@@ -1,8 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useLastMessage } from 'use-socketio'
-import PlayerCard from './PlayerCard'
+import styled from '@emotion/styled'
+import PlayerItem from './PlayerItem'
 import { findIndex } from '../utils/find-index'
 import move from 'array-move'
+
+const StyledList = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 25%;
+
+  > li {
+    margin-bottom: 1rem;
+  }
+`
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([])
@@ -25,9 +39,9 @@ const PlayerList = () => {
   }, [playerData])
 
   return players.length > 0 ? (
-    <ul>
+    <StyledList>
       {players.map((player, i) => (
-        <PlayerCard
+        <PlayerItem
           key={player.id}
           player={player}
           setPosition={setPosition}
@@ -35,7 +49,7 @@ const PlayerList = () => {
           i={i}
         />
       ))}
-    </ul>
+    </StyledList>
   ) : (
     <div>Waiting for players to join</div>
   )

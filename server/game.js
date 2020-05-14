@@ -10,7 +10,6 @@ const initPlayer = (id) => ({
 const addPlayer = (id) => {
   if (players.length === MAX_PLAYERS) {
     return {
-      message: 'Game is full!',
       players,
     }
   }
@@ -38,7 +37,6 @@ const removePlayer = (removeId) => {
   }
 
   return {
-    message: `Could not remove player.`,
     players,
   }
 }
