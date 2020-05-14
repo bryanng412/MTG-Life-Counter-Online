@@ -49,7 +49,7 @@ const PlayerList = () => {
     }
   }, [playerData])
 
-  return players.length > 0 ? (
+  return players.length > 1 ? (
     <StyledList>
       {players.map((player, i) => (
         <PlayerItem
