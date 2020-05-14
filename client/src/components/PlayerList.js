@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import PlayerItem from './PlayerItem'
 import Waiting from './Waiting'
 import { findIndex } from '../utils/find-index'
+import { minTablet } from '../utils/responsive'
 import move from 'array-move'
 
 const StyledList = styled.ul`
@@ -12,10 +13,19 @@ const StyledList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 1rem 25%;
+  margin: 1rem 20%;
+
+  ${minTablet} {
+    margin: 1rem 25%;
+  }
 
   > li {
     margin-bottom: 1rem;
+    width: 100%;
+
+    ${minTablet} {
+      width: 50%;
+    }
   }
 `
 

@@ -22,7 +22,6 @@ const PlayerItem = ({ player, setPosition, moveItem, i }) => {
 
   return (
     <motion.li
-      style={{ width: '50%' }}
       ref={ref}
       initial={false}
       animate={isDragging ? onTop : flat}
