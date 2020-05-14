@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently npm:start:client npm:start:server",
+    "start:client": "cd client; yarn start",
+    "start:server": "cd server; npm run start",
     "format": "prettier --write server/*.js client/**/*.{js,jsx}"
   },
   "repository": {
@@ -17,6 +20,7 @@
   },
   "homepage": "https://github.com/bryanng412/MTG-Life-Counter-Online#readme",
   "devDependencies": {
+    "concurrently": "^5.2.0",
     "eslint": "6.6.0",
     "prettier": "^2.0.5"
   }
