@@ -19,7 +19,7 @@ const PlayerCard = ({ player }) => {
     socket.emit('updateLife', { id, life: life - 1 })
   }
 
-  const bg = socket.id === id ? '#FAF5FF' : 'white'
+  const bg = socket.id === id ? '#9AE6B4' : 'white'
 
   return (
     <Box
@@ -31,7 +31,7 @@ const PlayerCard = ({ player }) => {
     >
       <Flex justify="center" align="center">
         <IconButton icon="minus" onClick={minusLife} />
-        <Text marginX="4rem" textAlign="center" fontSize="6xl">
+        <Text mx={[4, 5, 7, 9]} textAlign="center" fontSize="6xl">
           {life}
         </Text>
         <IconButton icon="add" onClick={addLife} />
