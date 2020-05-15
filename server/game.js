@@ -10,7 +10,7 @@ const initCmdrDmg = () =>
   }, {})
 
 const initPlayer = id => ({
-  name: Sentencer.make('{{ adjective }} {{ noun }}'),
+  name: Sentencer.make('{{ an_adjective }} {{ noun }}'),
   life: 40,
   cmdrDmg: initCmdrDmg(),
   id,
@@ -41,10 +41,11 @@ const addPlayer = id => {
   }
 
   addCmdrDmg(id)
-  players.push(initPlayer(id))
+  const newPlayer = initPlayer(id)
+  players.push(newPlayer)
 
   return {
-    message: 'A player has entered the game!',
+    message: `${newPlayer.name} has entered the game!`,
     players,
   }
 }
