@@ -5,18 +5,19 @@ import CommanderButton from './CommanderButton'
 import CommanderDamage from './CommanderDamage'
 import SocketContext from '../context/socket'
 
-const PlayerCard = ({ player, playerList }) => {
-  const { name, life: initialLife, id } = player
-
-  const [showCmdrDamage, setShowCmdrDamage] = useState(false)
-  const [life, setLife] = useState(initialLife)
-  const socket = useContext(SocketContext)
+const PlayerCard = ({ player: initialPlayer, playerList }) => {
   const { colorMode } = useColorMode()
+  const socket = useContext(SocketContext)
+  const [showCmdrDamage, setShowCmdrDamage] = useState(false)
+
+  const [player, setPlayer] = useState(initialPlayer)
+  const { name, life: initialLife, id } = player
+  const [life, setLife] = useState(initialLife)
 
   const getLifeHandler = ({ isPlus } = {}) => () => {
     const newLife = isPlus ? life + 1 : life - 1
     setLife(newLife)
-    socket.emit('updateLife', { id, life: newLife })
+    socket.emit('updatePlayer', { id, life: newLife })
   }
 
   const bg = {
@@ -38,7 +39,11 @@ const PlayerCard = ({ player, playerList }) => {
         onClick={() => setShowCmdrDamage(!showCmdrDamage)}
       />
       {showCmdrDamage ? (
-        <CommanderDamage player={player} playerList={playerList} />
+        <CommanderDamage
+          player={player}
+          playerList={playerList}
+          setPlayer={setPlayer}
+        />
       ) : (
         <>
           <Flex justify="center" align="center">

@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Flex, Text, IconButton } from '@chakra-ui/core'
 import { toPlayerObj } from '../utils/players'
 import SocketContext from '../context/socket'
 
-const CommanderDamage = ({ player, playerList }) => {
-  const { cmdrDmg: initialCmdrDmg } = player
-  const [cmdrDmg, setCmdrDmg] = useState(initialCmdrDmg)
+const CommanderDamage = ({ player, playerList, setPlayer }) => {
+  const { cmdrDmg } = player
   const playerObj = toPlayerObj(playerList)
   const socket = useContext(SocketContext)
 
@@ -18,8 +17,8 @@ const CommanderDamage = ({ player, playerList }) => {
     const newLife = isPlus ? life + 1 : life - 1
     const newCmdrDmg = { ...cmdrDmg, [id]: newLife }
 
-    setCmdrDmg(newCmdrDmg)
-    socket.emit('updateCmdrDmg', { id: player.id, cmdrDmg: newCmdrDmg })
+    setPlayer({ ...player, cmdrDmg: newCmdrDmg })
+    socket.emit('updatePlayer', { id: player.id, cmdrDmg: newCmdrDmg })
   }
 
   return (
