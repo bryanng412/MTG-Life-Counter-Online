@@ -3,6 +3,7 @@ import { useLastMessage } from 'use-socketio'
 import styled from '@emotion/styled'
 import PlayerItem from './PlayerItem'
 import Waiting from './Waiting'
+import EditableName from './EditableName'
 import { findIndex } from '../utils/find-index'
 import { minTablet } from '../utils/responsive'
 import { getUpdatedPlayers } from '../utils/players'
@@ -15,7 +16,7 @@ const StyledList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 1rem 20%;
+  margin: 1rem 10%;
 
   ${minTablet} {
     margin: 1rem 25%;
@@ -26,7 +27,7 @@ const StyledList = styled.ul`
     width: 100%;
 
     ${minTablet} {
-      width: 50%;
+      width: 75%;
     }
   }
 `
@@ -63,11 +64,21 @@ const PlayerList = () => {
               setPosition={setPosition}
               moveItem={moveItem}
               i={i}
+              playerList={players}
             />
           ))}
         </StyledList>
       ) : (
-        <Waiting />
+        <>
+          <Waiting />
+          {players[0] && (
+            <EditableName
+              id={players[0].id}
+              placeholder="Enter your name."
+              maxW="50%"
+            />
+          )}
+        </>
       )}
     </SocketContext.Provider>
   )

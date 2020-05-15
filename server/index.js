@@ -25,7 +25,9 @@ io.on('connection', (socket) => {
   })
 
   socket.on('updateName', (resp) => {
-    socket.broadcast.emit('updatePlayers', updatePlayer(resp))
+    const updatedPlayer = updatePlayer(resp)
+    socket.emit('updatePlayers', updatedPlayer)
+    socket.broadcast.emit('updatePlayers', updatedPlayer)
   })
 
   socket.on('updateLife', (resp) => {

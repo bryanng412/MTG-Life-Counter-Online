@@ -3,6 +3,7 @@ import { SocketIOProvider } from 'use-socketio'
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 import PlayerList from './components/PlayerList'
 import Settings from './components/Settings'
+import { defaultTheme } from './themes'
 
 const ENDPOINT =
   process.env.NODE_ENV === 'production'
@@ -10,7 +11,7 @@ const ENDPOINT =
     : 'http://localhost:8080'
 
 const App = () => (
-  <ThemeProvider>
+  <ThemeProvider theme={defaultTheme}>
     <CSSReset />
     <SocketIOProvider url={ENDPOINT}>
       <PlayerList />
