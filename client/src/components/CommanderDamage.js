@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Flex, Text, IconButton } from '@chakra-ui/core'
+import Animated from './Animated'
 import { toPlayerObj } from '../utils/players'
 import SocketContext from '../context/socket'
 
@@ -22,32 +23,34 @@ const CommanderDamage = ({ player, playerList, setPlayer }) => {
   }
 
   return (
-    <Flex
-      height="11.25rem"
-      width="100%"
-      direction="column"
-      justify="center"
-      align="center"
-    >
-      {Object.keys(cmdrDmg).map(id => (
-        <Flex key={id} justify="center" align="center">
-          <Text mr="1.5rem">{playerObj[id].name}</Text>
-          <IconButton
-            size="xs"
-            icon="minus"
-            onClick={getCmdrDmgHandler({ id })}
-          />
-          <Text mx="0.75rem" fontSize="2xl">
-            {cmdrDmg[id]}
-          </Text>
-          <IconButton
-            size="xs"
-            icon="add"
-            onClick={getCmdrDmgHandler({ id, isPlus: true })}
-          />
-        </Flex>
-      ))}
-    </Flex>
+    <Animated>
+      <Flex
+        height="11.25rem"
+        width="100%"
+        direction="column"
+        justify="center"
+        align="center"
+      >
+        {Object.keys(cmdrDmg).map(id => (
+          <Flex key={id} justify="center" align="center">
+            <Text mr="1.5rem">{playerObj[id].name}</Text>
+            <IconButton
+              size="xs"
+              icon="minus"
+              onClick={getCmdrDmgHandler({ id })}
+            />
+            <Text mx="0.75rem" fontSize="2xl">
+              {cmdrDmg[id]}
+            </Text>
+            <IconButton
+              size="xs"
+              icon="add"
+              onClick={getCmdrDmgHandler({ id, isPlus: true })}
+            />
+          </Flex>
+        ))}
+      </Flex>
+    </Animated>
   )
 }
 
