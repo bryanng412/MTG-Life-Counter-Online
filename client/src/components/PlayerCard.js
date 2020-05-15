@@ -31,22 +31,24 @@ const PlayerCard = ({ player, playerList }) => {
         showCmdrDamage={showCmdrDamage}
         onClick={() => setShowCmdrDamage(!showCmdrDamage)}
       />
-      {showCmdrDamage
-        ? <CommanderDamage playerList={playerList.filter(({ id }) => player.id !== id)} />
-        : <>
-        <Flex justify="center" align="center">
-          <IconButton icon="minus" onClick={getLifeHandler()} />
-          <Text
-            mx={['0.5rem', '1rem', '1.5rem', '1.5rem']}
-            textAlign="center"
-            fontSize="6xl"
-          >
-            {life}
-          </Text>
-          <IconButton icon="add" onClick={getLifeHandler({ isPlus: true })} />
-        </Flex>
-        <EditableName name={name} id={id} />
-      </>}
+      {showCmdrDamage ? (
+        <CommanderDamage player={player} playerList={playerList} />
+      ) : (
+        <>
+          <Flex justify="center" align="center">
+            <IconButton icon="minus" onClick={getLifeHandler()} />
+            <Text
+              mx={['0.5rem', '1rem', '1.5rem', '1.5rem']}
+              textAlign="center"
+              fontSize="6xl"
+            >
+              {life}
+            </Text>
+            <IconButton icon="add" onClick={getLifeHandler({ isPlus: true })} />
+          </Flex>
+          <EditableName name={name} id={id} />
+        </>
+      )}
     </Box>
   )
 }

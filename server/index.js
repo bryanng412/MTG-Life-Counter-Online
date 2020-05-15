@@ -15,7 +15,7 @@ const { addPlayer, removePlayer, getPlayers, updatePlayer } = require('./game')
 app.use(cors())
 app.use(router)
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
   const addedPlayer = addPlayer(socket.id)
   socket.emit('updatePlayers', getPlayers())
   socket.broadcast.emit('updatePlayers', addedPlayer)
@@ -24,13 +24,17 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('updatePlayers', removePlayer(socket.id))
   })
 
-  socket.on('updateName', (resp) => {
+  socket.on('updateName', resp => {
     const updatedPlayer = updatePlayer(resp)
     socket.emit('updatePlayers', updatedPlayer)
     socket.broadcast.emit('updatePlayers', updatedPlayer)
   })
 
-  socket.on('updateLife', (resp) => {
+  socket.on('updateLife', resp => {
+    socket.broadcast.emit('updatePlayers', updatePlayer(resp))
+  })
+
+  socket.on('updateCmdrDmg', resp => {
     socket.broadcast.emit('updatePlayers', updatePlayer(resp))
   })
 })

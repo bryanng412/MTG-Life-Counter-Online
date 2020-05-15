@@ -1,4 +1,4 @@
-export const toPlayerObj = (players) =>
+export const toPlayerObj = players =>
   players
     ? players.reduce((playerObj, { id, ...rest }) => {
         playerObj[id] = { id, ...rest }
@@ -22,3 +22,6 @@ export const getUpdatedPlayers = (currentPlayers, newPlayers) => {
     newPlayerObj[id] ? newPlayerObj[id] : { id, ...rest }
   )
 }
+
+export const getPlayerKey = ({ id, name, life, cmdrDmg }) =>
+  [id, name, life, Object.values(cmdrDmg).join('')].join('-')

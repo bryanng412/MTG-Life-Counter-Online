@@ -6,7 +6,7 @@ import Waiting from './Waiting'
 import EditableName from './EditableName'
 import { findIndex } from '../utils/find-index'
 import { minTablet } from '../utils/responsive'
-import { getUpdatedPlayers } from '../utils/players'
+import { getUpdatedPlayers, getPlayerKey } from '../utils/players'
 import move from 'array-move'
 import SocketContext from '../context/socket'
 
@@ -17,6 +17,7 @@ const StyledList = styled.ul`
   justify-content: center;
   align-items: center;
   margin: 1rem 10%;
+  margin-bottom: 35%;
 
   ${minTablet} {
     margin: 1rem 25%;
@@ -59,7 +60,7 @@ const PlayerList = () => {
         <StyledList>
           {players.map((player, i) => (
             <PlayerItem
-              key={`${player.id}-${player.name}-${player.life}`}
+              key={getPlayerKey(player)}
               player={player}
               setPosition={setPosition}
               moveItem={moveItem}

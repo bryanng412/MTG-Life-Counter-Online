@@ -1,13 +1,55 @@
-import React from 'react'
-import { Flex } from '@chakra-ui/core'
+import React, { useState, useContext } from 'react'
+import { Flex, Text, IconButton } from '@chakra-ui/core'
+import { toPlayerObj } from '../utils/players'
+import SocketContext from '../context/socket'
 
-const CommanderDamage = ({ playerList }) => {
+const CommanderDamage = ({ player, playerList }) => {
+  const { cmdrDmg: initialCmdrDmg } = player
+  const [cmdrDmg, setCmdrDmg] = useState(initialCmdrDmg)
+  const playerObj = toPlayerObj(playerList)
+  const socket = useContext(SocketContext)
 
-    return <Flex height="11.25rem" width="100%" direction="column" justify="center" align="center">
-        {playerList.map(({ name }) => <div key={name}>{name}</div>
+  const getCmdrDmgHandler = ({ id, isPlus }) => () => {
+    const life = cmdrDmg[id]
 
-        )}
+    if ((life === 0 && !isPlus) || (life === 10 && isPlus)) {
+      return
+    }
+    const newLife = isPlus ? life + 1 : life - 1
+    const newCmdrDmg = { ...cmdrDmg, [id]: newLife }
+
+    setCmdrDmg(newCmdrDmg)
+    socket.emit('updateCmdrDmg', { id: player.id, cmdrDmg: newCmdrDmg })
+  }
+
+  return (
+    <Flex
+      height="11.25rem"
+      width="100%"
+      direction="column"
+      justify="center"
+      align="center"
+    >
+      {Object.keys(cmdrDmg).map(id => (
+        <Flex key={id} justify="center" align="center">
+          <Text mr="1.5rem">{playerObj[id].name}</Text>
+          <IconButton
+            size="xs"
+            icon="minus"
+            onClick={getCmdrDmgHandler({ id })}
+          />
+          <Text mx="0.75rem" fontSize="2xl">
+            {cmdrDmg[id]}
+          </Text>
+          <IconButton
+            size="xs"
+            icon="add"
+            onClick={getCmdrDmgHandler({ id, isPlus: true })}
+          />
+        </Flex>
+      ))}
     </Flex>
+  )
 }
 
 export default CommanderDamage

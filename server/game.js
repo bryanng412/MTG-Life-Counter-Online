@@ -1,19 +1,46 @@
-const MAX_PLAYERS = 4
+const Sentencer = require('sentencer')
+
+const MAX_PLAYERS = 5
 let players = []
 
-const initPlayer = (id) => ({
-  name: 'New Player',
+const initCmdrDmg = () =>
+  players.reduce((playerObj, { id }) => {
+    playerObj[id] = 0
+    return playerObj
+  }, {})
+
+const initPlayer = id => ({
+  name: Sentencer.make('{{ adjective }} {{ noun }}'),
   life: 40,
+  cmdrDmg: initCmdrDmg(),
   id,
 })
 
-const addPlayer = (id) => {
+const addCmdrDmg = addPlayerId => {
+  players = players.map(({ id, cmdrDmg, ...rest }) => ({
+    id,
+    ...rest,
+    cmdrDmg: {
+      [addPlayerId]: 0,
+      ...cmdrDmg,
+    },
+  }))
+}
+
+const removeCmdrDmg = removePlayerId => {
+  players.forEach((_, i) => {
+    delete players[i].cmdrDmg[removePlayerId]
+  })
+}
+
+const addPlayer = id => {
   if (players.length === MAX_PLAYERS) {
     return {
       players,
     }
   }
 
+  addCmdrDmg(id)
   players.push(initPlayer(id))
 
   return {
@@ -22,11 +49,13 @@ const addPlayer = (id) => {
   }
 }
 
-const removePlayer = (removeId) => {
+const removePlayer = removeId => {
   const index = players.findIndex(({ id }) => id === removeId)
 
   if (index !== -1) {
     const { name } = players[index]
+
+    removeCmdrDmg(removeId)
     players.splice(index, 1)
 
     return {

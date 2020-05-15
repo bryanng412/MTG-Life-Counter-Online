@@ -12,7 +12,7 @@ import SocketContext from '../context/socket'
 const EditableName = ({ name, id, placeholder = '' }) => {
   const socket = useContext(SocketContext)
 
-  const submitHandler = (newName) =>
+  const submitHandler = newName =>
     socket.emit('updateName', { id, name: newName })
 
   return (
