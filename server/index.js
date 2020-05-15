@@ -16,6 +16,12 @@ app.use(cors())
 app.use(router)
 
 io.on('connection', socket => {
+  const updateAllPlayers = resp => {
+    const updatedPlayer = updatePlayer(resp)
+    socket.emit('updatePlayers', updatedPlayer)
+    socket.broadcast.emit('updatePlayers', updatePlayer(resp))
+  }
+
   const addedPlayer = addPlayer(socket.id)
   socket.emit('updatePlayers', getPlayers())
   socket.broadcast.emit('updatePlayers', addedPlayer)
@@ -25,9 +31,7 @@ io.on('connection', socket => {
   })
 
   socket.on('updateName', resp => {
-    const updatedPlayer = updatePlayer(resp)
-    socket.emit('updatePlayers', updatedPlayer)
-    socket.broadcast.emit('updatePlayers', updatedPlayer)
+    updateAllPlayers(resp)
   })
 
   socket.on('updateLife', resp => {
@@ -35,7 +39,7 @@ io.on('connection', socket => {
   })
 
   socket.on('updateCmdrDmg', resp => {
-    socket.broadcast.emit('updatePlayers', updatePlayer(resp))
+    updateAllPlayers(resp)
   })
 })
 
