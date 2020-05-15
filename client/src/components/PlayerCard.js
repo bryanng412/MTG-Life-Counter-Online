@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Box, Text, Flex, IconButton } from '@chakra-ui/core'
+import { Box, Text, Flex, IconButton, useColorMode } from '@chakra-ui/core'
 import EditableName from './EditableName'
 import CommanderButton from './CommanderButton'
 import CommanderDamage from './CommanderDamage'
@@ -11,6 +11,7 @@ const PlayerCard = ({ player, playerList }) => {
   const [showCmdrDamage, setShowCmdrDamage] = useState(false)
   const [life, setLife] = useState(initialLife)
   const socket = useContext(SocketContext)
+  const { colorMode } = useColorMode()
 
   const getLifeHandler = ({ isPlus } = {}) => () => {
     const newLife = isPlus ? life + 1 : life - 1
@@ -18,13 +19,18 @@ const PlayerCard = ({ player, playerList }) => {
     socket.emit('updateLife', { id, life: newLife })
   }
 
+  const bg = {
+    light: socket.id === id ? 'green.200' : 'white',
+    dark: socket.id === id ? 'purple.800' : 'gray.700',
+  }
+  
   return (
     <Box
-      bg={socket.id === id ? '#9AE6B4' : 'white'}
-      borderWidth="1px"
+      bg={bg[colorMode]}
+      borderWidth="2px"
       rounded="lg"
       overflow="hidden"
-      boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+      boxShadow="md"
       position="relative"
     >
       <CommanderButton

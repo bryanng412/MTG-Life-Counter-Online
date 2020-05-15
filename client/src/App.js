@@ -1,6 +1,6 @@
 import React from 'react'
 import { SocketIOProvider } from 'use-socketio'
-import { ThemeProvider, CSSReset } from '@chakra-ui/core'
+import { ThemeProvider, CSSReset, ColorModeProvider  } from '@chakra-ui/core'
 import PlayerList from './components/PlayerList'
 import Settings from './components/Settings'
 import { defaultTheme } from './themes'
@@ -12,11 +12,13 @@ const ENDPOINT =
 
 const App = () => (
   <ThemeProvider theme={defaultTheme}>
-    <CSSReset />
-    <SocketIOProvider url={ENDPOINT}>
-      <PlayerList />
-      <Settings />
-    </SocketIOProvider>
+    <ColorModeProvider>
+      <CSSReset />
+      <SocketIOProvider url={ENDPOINT}>
+        <Settings />
+        <PlayerList />
+      </SocketIOProvider>
+    </ColorModeProvider>
   </ThemeProvider>
 )
 

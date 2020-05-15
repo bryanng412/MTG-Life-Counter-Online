@@ -8,7 +8,7 @@ export default ({ showCmdrDamage, ...rest }) => (
     right={1}
     bg="transparent"
     icon={showCmdrDamage ? 'arrow-back' : 'cmdr'}
-    color="black"
+    fill="currentColor"
     {...rest}
   />
 )
