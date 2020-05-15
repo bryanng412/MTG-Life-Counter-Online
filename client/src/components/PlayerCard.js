@@ -23,7 +23,7 @@ const PlayerCard = ({ player, playerList }) => {
     light: socket.id === id ? 'green.200' : 'white',
     dark: socket.id === id ? 'purple.800' : 'gray.700',
   }
-  
+
   return (
     <Box
       bg={bg[colorMode]}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SocketIOProvider } from 'use-socketio'
-import { ThemeProvider, CSSReset, ColorModeProvider  } from '@chakra-ui/core'
+import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core'
 import PlayerList from './components/PlayerList'
 import Settings from './components/Settings'
 import { defaultTheme } from './themes'

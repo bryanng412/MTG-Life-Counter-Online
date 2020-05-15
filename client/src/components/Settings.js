@@ -1,6 +1,11 @@
 import React from 'react'
 import { useSocket } from 'use-socketio'
-import { useToast, IconButton, useColorMode, Flex, useDisclosure,
+import {
+  useToast,
+  IconButton,
+  useColorMode,
+  Flex,
+  useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -12,7 +17,7 @@ import { useToast, IconButton, useColorMode, Flex, useDisclosure,
 
 const Settings = () => {
   const toast = useToast()
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
 
   useSocket('updatePlayers', ({ message, isLeaving }) => {
@@ -29,16 +34,17 @@ const Settings = () => {
   return (
     <>
       <Flex justify="center">
-        <IconButton
-          mt="4"
-          icon="settings"
-          onClick={onOpen}
-        />
+        <IconButton mt="4" icon="settings" onClick={onOpen} />
       </Flex>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        size={{ base: 'xs', sm: 'md', md: 'lg' }}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Thanks for using MTG Life Counter!</ModalHeader>
+          <ModalHeader>Thanks for using MTG Life Counter Online!</ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" justifyContent="center">
             <IconButton
@@ -46,9 +52,7 @@ const Settings = () => {
               onClick={toggleColorMode}
             />
           </ModalBody>
-          <ModalFooter>
-            more features coming soon!
-          </ModalFooter>
+          <ModalFooter>more features coming soon!</ModalFooter>
         </ModalContent>
       </Modal>
     </>
