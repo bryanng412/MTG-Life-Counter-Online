@@ -1,16 +1,42 @@
-import React from 'react'
-import { Box, Text } from '@chakra-ui/core'
+import React, { useState, useContext } from 'react'
+import { Box, Text, Flex, IconButton } from '@chakra-ui/core'
 import EditableName from './EditableName'
+import SocketContext from '../context/socket'
 
 const PlayerCard = ({ player }) => {
-  const { name, life } = player
+  const { name, life: initialLife, id } = player
+
+  const [life, setLife] = useState(initialLife)
+  const socket = useContext(SocketContext)
+
+  const addLife = () => {
+    setLife(life + 1)
+    socket.emit('updateLife', { id, life: life + 1 })
+  }
+
+  const minusLife = () => {
+    setLife(life - 1)
+    socket.emit('updateLife', { id, life: life - 1 })
+  }
+
+  const bg = socket.id === id ? '#FAF5FF' : 'white'
 
   return (
-    <Box borderWidth="1px" rounded="lg" overflow="hidden">
-      <Text textAlign="center" fontSize="6xl">
-        {life}
-      </Text>
-      <EditableName name={name} />
+    <Box
+      bg={bg}
+      borderWidth="1px"
+      rounded="lg"
+      overflow="hidden"
+      boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+    >
+      <Flex justify="center" align="center">
+        <IconButton icon="minus" onClick={minusLife} />
+        <Text marginX="4rem" textAlign="center" fontSize="6xl">
+          {life}
+        </Text>
+        <IconButton icon="add" onClick={addLife} />
+      </Flex>
+      <EditableName name={name} id={id} />
     </Box>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   ButtonGroup,
   IconButton,
@@ -7,19 +7,13 @@ import {
   EditableInput,
   EditablePreview,
 } from '@chakra-ui/core'
+import SocketContext from '../context/socket'
 
-const EditableName = ({ name }) => {
-  const EditableControls = ({ isEditing, onSubmit, onCancel, onRequestEdit }) =>
-    isEditing ? (
-      <ButtonGroup justifyContent="center" size="sm">
-        <IconButton icon="check" onClick={onSubmit} />
-        <IconButton icon="close" onClick={onCancel} />
-      </ButtonGroup>
-    ) : (
-      <Flex justifyContent="center">
-        <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
-      </Flex>
-    )
+const EditableName = ({ name, id }) => {
+  const socket = useContext(SocketContext)
+
+  const submitHandler = (newName) =>
+    socket.emit('updateName', { id, name: newName })
 
   return (
     <Editable
@@ -29,12 +23,23 @@ const EditableName = ({ name }) => {
       fontSize="2xl"
       isPreviewFocusable={false}
       submitOnBlur={false}
+      placeholder=""
+      onSubmit={submitHandler}
     >
-      {(props) => (
+      {({ isEditing, onSubmit, onCancel, onRequestEdit }) => (
         <>
           <EditablePreview />
-          <EditableInput />
-          <EditableControls {...props} />
+          <EditableInput onBlur={null} />
+          {isEditing ? (
+            <ButtonGroup justifyContent="center" size="sm">
+              <IconButton icon="check" onClick={onSubmit} />
+              <IconButton icon="close" onClick={onCancel} />
+            </ButtonGroup>
+          ) : (
+            <Flex justifyContent="center">
+              <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
+            </Flex>
+          )}
         </>
       )}
     </Editable>

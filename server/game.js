@@ -1,8 +1,8 @@
 const MAX_PLAYERS = 4
-const players = []
+let players = []
 
 const initPlayer = (id) => ({
-  name: `Player ${players.length + 1}`,
+  name: 'New Player',
   life: 40,
   id,
 })
@@ -43,4 +43,12 @@ const removePlayer = (removeId) => {
 
 const getPlayers = () => ({ players })
 
-module.exports = { addPlayer, removePlayer, getPlayers }
+const updatePlayer = ({ id: playerId, ...newValues }) => {
+  players = players.map(({ id, ...rest }) =>
+    id === playerId ? { id, ...rest, ...newValues } : { id, ...rest }
+  )
+
+  return { players }
+}
+
+module.exports = { addPlayer, removePlayer, getPlayers, updatePlayer }

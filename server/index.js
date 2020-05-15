@@ -10,7 +10,7 @@ const server = http.createServer(app)
 const io = socketio(server)
 const port = process.env.PORT || 8080
 
-const { addPlayer, removePlayer, getPlayers } = require('./game')
+const { addPlayer, removePlayer, getPlayers, updatePlayer } = require('./game')
 
 app.use(cors())
 app.use(router)
@@ -22,6 +22,14 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     socket.broadcast.emit('updatePlayers', removePlayer(socket.id))
+  })
+
+  socket.on('updateName', (resp) => {
+    socket.broadcast.emit('updatePlayers', updatePlayer(resp))
+  })
+
+  socket.on('updateLife', (resp) => {
+    socket.broadcast.emit('updatePlayers', updatePlayer(resp))
   })
 })
 

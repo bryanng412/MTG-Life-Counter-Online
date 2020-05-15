@@ -15,7 +15,7 @@ const Settings = () => {
     }
   })
 
-  return null
+  return <></>
 }
 
 export default Settings
