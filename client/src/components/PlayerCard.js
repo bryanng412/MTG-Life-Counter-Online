@@ -1,18 +1,22 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Box, Text, Flex, IconButton, useColorMode } from '@chakra-ui/core'
+import { writeStorage, useLocalStorage } from '@rehooks/local-storage';
 import EditableName from './EditableName'
 import CommanderButton from './CommanderButton'
 import CommanderDamage from './CommanderDamage'
 import SocketContext from '../context/socket'
+import { doesPlayerMatch } from '../utils/players'
 
 const PlayerCard = ({ player: initialPlayer, playerList }) => {
   const { colorMode } = useColorMode()
   const socket = useContext(SocketContext)
   const [showCmdrDamage, setShowCmdrDamage] = useState(false)
+  const [storagePlayer] = useLocalStorage('player')
 
   const [player, setPlayer] = useState(initialPlayer)
   const { name, life: initialLife, id } = player
   const [life, setLife] = useState(initialLife)
+  const belongsToUser = socket.id === id
 
   const getLifeHandler = ({ isPlus } = {}) => () => {
     const newLife = isPlus ? life + 1 : life - 1
@@ -21,9 +25,21 @@ const PlayerCard = ({ player: initialPlayer, playerList }) => {
   }
 
   const bg = {
-    light: socket.id === id ? 'green.200' : 'white',
-    dark: socket.id === id ? 'purple.800' : 'gray.700',
+    light: belongsToUser ? 'green.200' : 'white',
+    dark: belongsToUser? 'purple.800' : 'gray.700',
   }
+
+  useEffect(() => {
+    if (socket && belongsToUser &&
+      (doesPlayerMatch(storagePlayer, player) || !storagePlayer)
+    ) {
+      writeStorage('player', { name, life })
+    }
+
+    if (socket && belongsToUser && storagePlayer && !doesPlayerMatch(storagePlayer, player)) {
+      socket.emit('updateAllClients', { id, name: storagePlayer.name, life: storagePlayer.life })
+    }
+  }, [socket, name, life])
 
   return (
     <Box
@@ -57,7 +73,7 @@ const PlayerCard = ({ player: initialPlayer, playerList }) => {
             </Text>
             <IconButton icon="add" onClick={getLifeHandler({ isPlus: true })} />
           </Flex>
-          <EditableName name={name} id={id} />
+          <EditableName name={name} id={id} editable={belongsToUser} />
         </>
       )}
     </Box>

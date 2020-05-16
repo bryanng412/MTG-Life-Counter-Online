@@ -45,7 +45,7 @@ const addPlayer = id => {
   players.push(newPlayer)
 
   return {
-    message: `${newPlayer.name} has entered the game!`,
+    message: `A player has entered the game!`,
     players,
   }
 }
@@ -60,7 +60,7 @@ const removePlayer = removeId => {
     players.splice(index, 1)
 
     return {
-      message: `${name} has left the game!`,
+      message: `A player has left the game!`,
       isLeaving: true,
       players,
     }

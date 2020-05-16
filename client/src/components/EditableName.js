@@ -8,15 +8,20 @@ import {
   EditablePreview,
 } from '@chakra-ui/core'
 import SocketContext from '../context/socket'
+import { writeStorage, useLocalStorage } from '@rehooks/local-storage';
 
-const EditableName = ({ name, id, placeholder = '' }) => {
+const EditableName = ({ name, id, placeholder = '', editable = true }) => {
+  const [storagePlayer] = useLocalStorage('player')
   const socket = useContext(SocketContext)
 
-  const submitHandler = newName =>
-    socket.emit('updateName', { id, name: newName })
+  const submitHandler = newName => {
+    writeStorage('player', { ...storagePlayer, name: newName })
+    socket.emit('updateAllClients', { id, name: newName })
+  }
 
   return (
     <Editable
+      isDisabled={!editable}
       textAlign="center"
       paddingBottom="1rem"
       maxW="70%"
@@ -31,17 +36,21 @@ const EditableName = ({ name, id, placeholder = '' }) => {
       {({ isEditing, onSubmit, onCancel, onRequestEdit }) => (
         <>
           <EditablePreview whiteSpace="nowrap" />
-          <EditableInput onBlur={null} />
-          {isEditing ? (
-            <ButtonGroup justifyContent="center" size="sm">
-              <IconButton icon="check" onClick={onSubmit} />
-              <IconButton icon="close" onClick={onCancel} />
-            </ButtonGroup>
-          ) : (
-            <Flex justifyContent="center">
-              <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
-            </Flex>
-          )}
+          {editable &&
+            <>
+              <EditableInput onBlur={null} />
+              {isEditing ? (
+                <ButtonGroup justifyContent="center" size="sm">
+                  <IconButton icon="check" onClick={onSubmit} />
+                  <IconButton icon="close" onClick={onCancel} />
+                </ButtonGroup>
+              ) : (
+                  <Flex justifyContent="center">
+                    <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
+                  </Flex>
+                )}
+            </>
+          }
         </>
       )}
     </Editable>

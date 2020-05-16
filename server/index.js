@@ -24,7 +24,7 @@ io.on('connection', socket => {
     socket.broadcast.emit('updatePlayers', removePlayer(socket.id))
   })
 
-  socket.on('updateName', resp => {
+  socket.on('updateAllClients', resp => {
     const updatedPlayer = updatePlayer(resp)
     socket.emit('updatePlayers', updatedPlayer)
     socket.broadcast.emit('updatePlayers', updatePlayer(resp))
