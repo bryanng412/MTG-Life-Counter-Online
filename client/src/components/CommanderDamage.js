@@ -12,7 +12,7 @@ const CommanderDamage = ({ player, playerList, setPlayer }) => {
   const getCmdrDmgHandler = ({ id, isPlus }) => () => {
     const life = cmdrDmg[id]
 
-    if ((life === 0 && !isPlus) || (life === 10 && isPlus)) {
+    if ((life === 0 && !isPlus) || (life === 20 && isPlus)) {
       return
     }
     const newLife = isPlus ? life + 1 : life - 1
