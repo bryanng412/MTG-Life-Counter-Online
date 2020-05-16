@@ -12,10 +12,7 @@ import {
 } from '@chakra-ui/core'
 
 const ResetButton = ({ socket }) => {
-  const onClick = () => {
-    socket.emit('reset')
-    window.location.reload()
-  }
+  const onClick = () => socket.emit('reset')
 
   return (
     <Popover>

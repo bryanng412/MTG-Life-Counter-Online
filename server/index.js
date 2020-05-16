@@ -46,7 +46,7 @@ io.on('connection', socket => {
     const reset = resetPlayers()
     socket.emit('reset')
     socket.broadcast.emit('reset')
-    
+
     socket.emit('updatePlayers', reset)
     socket.broadcast.emit('updatePlayers', reset)
   })
