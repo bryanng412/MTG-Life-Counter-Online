@@ -33,6 +33,8 @@ io.on('connection', socket => {
   socket.on('updatePlayer', resp => {
     socket.broadcast.emit('updatePlayers', updatePlayer(resp))
   })
+
+  socket.on('keepAlive', () => {})
 })
 
 server.listen(port, () => console.log(`Server has started on port ${port}.`))

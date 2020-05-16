@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useLastMessage } from 'use-socketio'
 import styled from '@emotion/styled'
+import KeepAlive from './KeepAlive'
 import PlayerItem from './PlayerItem'
 import Waiting from './Waiting'
 import EditableName from './EditableName'
@@ -56,6 +57,7 @@ const PlayerList = () => {
 
   return (
     <SocketContext.Provider value={socket}>
+      <KeepAlive socket={socket} />
       {players.length > 1 ? (
         <StyledList>
           {players.map((player, i) => (
