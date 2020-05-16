@@ -33,8 +33,8 @@ const Settings = () => {
 
   return (
     <>
-      <Flex justify="center">
-        <IconButton mt="4" icon="settings" onClick={onOpen} />
+      <Flex justify="center" pos="relative">
+        <IconButton mt="4" mr="4" size="sm" pos={{ base: 'absolute', md: 'static' }} top={0} right={0} icon="settings" onClick={onOpen} />
       </Flex>
       <Modal
         onClose={onClose}

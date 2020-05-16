@@ -63,15 +63,15 @@ const PlayerCard = ({ player: initialPlayer, playerList }) => {
       ) : (
         <>
           <Flex justify="center" align="center">
-            <IconButton icon="minus" onClick={getLifeHandler()} />
+            <IconButton size="sm" icon="minus" onClick={getLifeHandler()} />
             <Text
-              mx={['0.5rem', '1rem', '1.5rem', '1.5rem']}
+              mx={['1rem', '1rem', '1.5rem', '1.5rem']}
               textAlign="center"
-              fontSize="6xl"
+              fontSize={{ base: '5xl', md: "6xl"}}
             >
               {life}
             </Text>
-            <IconButton icon="add" onClick={getLifeHandler({ isPlus: true })} />
+              <IconButton size="sm" icon="add" onClick={getLifeHandler({ isPlus: true })} />
           </Flex>
           <EditableName name={name} id={id} editable={belongsToUser} />
         </>

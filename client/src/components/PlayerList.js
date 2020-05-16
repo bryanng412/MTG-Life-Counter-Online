@@ -26,7 +26,7 @@ const StyledList = styled.ul`
 
   > li {
     margin-bottom: 1rem;
-    width: 100%;
+    width: 80%;
 
     ${minTablet} {
       width: 75%;
