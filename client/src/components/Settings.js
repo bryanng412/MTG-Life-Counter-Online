@@ -16,6 +16,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/core'
 import ResetButton from './ResetButton'
+import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 
 const Settings = () => {
   const toast = useToast()
@@ -30,6 +31,13 @@ const Settings = () => {
         status: 'success',
         isClosable: true,
       })
+    }
+  })
+
+  const [player] = useLocalStorage(player)
+  useSocket('reset', () => {
+    if (player) {
+      writeStorage('player', { ...player, life: 40 })
     }
   })
 
