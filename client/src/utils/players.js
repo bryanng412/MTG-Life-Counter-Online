@@ -27,6 +27,4 @@ export const getPlayerKey = ({ id, name, life, cmdrDmg }) =>
   [id, name, life, Object.values(cmdrDmg).join('')].join('-')
 
 export const doesPlayerMatch = (storagePlayer, player) =>
-  !storagePlayer || !player
-    ? false
-    : storagePlayer.name === player.name
+  !storagePlayer || !player ? false : storagePlayer.name === player.name

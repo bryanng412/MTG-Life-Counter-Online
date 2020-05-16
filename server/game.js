@@ -1,6 +1,7 @@
 const Sentencer = require('sentencer')
 
 const MAX_PLAYERS = 5
+const STARTING_LIFE = 40
 let players = []
 
 const initCmdrDmg = () =>
@@ -11,7 +12,7 @@ const initCmdrDmg = () =>
 
 const initPlayer = id => ({
   name: Sentencer.make('{{ an_adjective }} {{ noun }}'),
-  life: 40,
+  life: STARTING_LIFE,
   cmdrDmg: initCmdrDmg(),
   id,
 })
@@ -35,9 +36,7 @@ const removeCmdrDmg = removePlayerId => {
 
 const addPlayer = id => {
   if (players.length === MAX_PLAYERS) {
-    return {
-      players,
-    }
+    return { players }
   }
 
   addCmdrDmg(id)
@@ -54,8 +53,6 @@ const removePlayer = removeId => {
   const index = players.findIndex(({ id }) => id === removeId)
 
   if (index !== -1) {
-    const { name } = players[index]
-
     removeCmdrDmg(removeId)
     players.splice(index, 1)
 
@@ -66,9 +63,7 @@ const removePlayer = removeId => {
     }
   }
 
-  return {
-    players,
-  }
+  return { players }
 }
 
 const getPlayers = () => ({ players })
@@ -81,4 +76,29 @@ const updatePlayer = ({ id: playerId, ...newValues }) => {
   return { players }
 }
 
-module.exports = { addPlayer, removePlayer, getPlayers, updatePlayer }
+const resetCmdrDmg = cmdrDmg => {
+  const newCmdrDmg = Object.keys(cmdrDmg).reduce((cmdrDmgObj, id) => {
+    cmdrDmgObj[id] = 0
+    return cmdrDmgObj
+  }, {})
+
+  return newCmdrDmg
+}
+
+const resetPlayers = () => {
+  players = players.map(({ life, cmdrDmg, ...rest }) => ({
+    life: STARTING_LIFE,
+    cmdrDmg: resetCmdrDmg(cmdrDmg),
+    ...rest,
+  }))
+
+  return { players }
+}
+
+module.exports = {
+  addPlayer,
+  removePlayer,
+  getPlayers,
+  updatePlayer,
+  resetPlayers,
+}

@@ -8,7 +8,7 @@ import {
   EditablePreview,
 } from '@chakra-ui/core'
 import SocketContext from '../context/socket'
-import { writeStorage, useLocalStorage } from '@rehooks/local-storage';
+import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 
 const EditableName = ({ name, id, placeholder = '', editable = true }) => {
   const [storagePlayer] = useLocalStorage('player')
@@ -36,7 +36,7 @@ const EditableName = ({ name, id, placeholder = '', editable = true }) => {
       {({ isEditing, onSubmit, onCancel, onRequestEdit }) => (
         <>
           <EditablePreview whiteSpace="nowrap" />
-          {editable &&
+          {editable && (
             <>
               <EditableInput onBlur={null} />
               {isEditing ? (
@@ -45,12 +45,12 @@ const EditableName = ({ name, id, placeholder = '', editable = true }) => {
                   <IconButton icon="close" onClick={onCancel} />
                 </ButtonGroup>
               ) : (
-                  <Flex justifyContent="center">
-                    <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
-                  </Flex>
-                )}
+                <Flex justifyContent="center">
+                  <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
+                </Flex>
+              )}
             </>
-          }
+          )}
         </>
       )}
     </Editable>

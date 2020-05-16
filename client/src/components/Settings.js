@@ -5,6 +5,7 @@ import {
   IconButton,
   useColorMode,
   Flex,
+  ButtonGroup,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -14,13 +15,14 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/core'
+import ResetButton from './ResetButton'
 
 const Settings = () => {
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
 
-  useSocket('updatePlayers', ({ message, isLeaving }) => {
+  const { socket } = useSocket('updatePlayers', ({ message, isLeaving }) => {
     if (message) {
       toast({
         title: isLeaving ? 'GG' : 'Challenger approaching!',
@@ -34,7 +36,16 @@ const Settings = () => {
   return (
     <>
       <Flex justify="center" pos="relative">
-        <IconButton mt="4" mr="4" size="sm" pos={{ base: 'absolute', md: 'static' }} top={0} right={0} icon="settings" onClick={onOpen} />
+        <IconButton
+          mt="4"
+          mr="4"
+          size="sm"
+          pos={{ base: 'absolute', md: 'static' }}
+          top={0}
+          right={0}
+          icon="settings"
+          onClick={onOpen}
+        />
       </Flex>
       <Modal
         onClose={onClose}
@@ -47,10 +58,13 @@ const Settings = () => {
           <ModalHeader>Thanks for using MTG Life Counter Online!</ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" justifyContent="center">
-            <IconButton
-              icon={colorMode === 'light' ? 'moon' : 'sun'}
-              onClick={toggleColorMode}
-            />
+            <ButtonGroup spacing={8}>
+              <IconButton
+                icon={colorMode === 'light' ? 'moon' : 'sun'}
+                onClick={toggleColorMode}
+              />
+              <ResetButton socket={socket} />
+            </ButtonGroup>
           </ModalBody>
           <ModalFooter>more features coming soon!</ModalFooter>
         </ModalContent>

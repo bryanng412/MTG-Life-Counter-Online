@@ -10,7 +10,13 @@ const server = http.createServer(app)
 const io = socketio(server)
 const port = process.env.PORT || 8080
 
-const { addPlayer, removePlayer, getPlayers, updatePlayer } = require('./game')
+const {
+  addPlayer,
+  removePlayer,
+  getPlayers,
+  updatePlayer,
+  resetPlayers,
+} = require('./game')
 
 app.use(cors())
 app.use(router)
@@ -35,6 +41,12 @@ io.on('connection', socket => {
   })
 
   socket.on('keepAlive', () => {})
+
+  socket.on('reset', () => {
+    const reset = resetPlayers()
+    socket.emit('updatePlayers', reset)
+    socket.broadcast.emit('updatePlayers', reset)
+  })
 })
 
 server.listen(port, () => console.log(`Server has started on port ${port}.`))

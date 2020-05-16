@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Box, Text, Flex, IconButton, useColorMode } from '@chakra-ui/core'
-import { writeStorage, useLocalStorage } from '@rehooks/local-storage';
+import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 import EditableName from './EditableName'
 import CommanderButton from './CommanderButton'
 import CommanderDamage from './CommanderDamage'
@@ -26,18 +26,29 @@ const PlayerCard = ({ player: initialPlayer, playerList }) => {
 
   const bg = {
     light: belongsToUser ? 'green.200' : 'white',
-    dark: belongsToUser? 'purple.800' : 'gray.700',
+    dark: belongsToUser ? 'purple.800' : 'gray.700',
   }
 
   useEffect(() => {
-    if (socket && belongsToUser &&
+    if (
+      socket &&
+      belongsToUser &&
       (doesPlayerMatch(storagePlayer, player) || !storagePlayer)
     ) {
       writeStorage('player', { name, life })
     }
 
-    if (socket && belongsToUser && storagePlayer && !doesPlayerMatch(storagePlayer, player)) {
-      socket.emit('updateAllClients', { id, name: storagePlayer.name, life: storagePlayer.life })
+    if (
+      socket &&
+      belongsToUser &&
+      storagePlayer &&
+      !doesPlayerMatch(storagePlayer, player)
+    ) {
+      socket.emit('updateAllClients', {
+        id,
+        name: storagePlayer.name,
+        life: storagePlayer.life,
+      })
     }
   }, [socket, name, life])
 
@@ -67,11 +78,15 @@ const PlayerCard = ({ player: initialPlayer, playerList }) => {
             <Text
               mx={['1rem', '1rem', '1.5rem', '1.5rem']}
               textAlign="center"
-              fontSize={{ base: '5xl', md: "6xl"}}
+              fontSize={{ base: '5xl', md: '6xl' }}
             >
               {life}
             </Text>
-              <IconButton size="sm" icon="add" onClick={getLifeHandler({ isPlus: true })} />
+            <IconButton
+              size="sm"
+              icon="add"
+              onClick={getLifeHandler({ isPlus: true })}
+            />
           </Flex>
           <EditableName name={name} id={id} editable={belongsToUser} />
         </>
