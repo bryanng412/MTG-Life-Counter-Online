@@ -10,18 +10,10 @@ import {
   IconButton,
   Button,
 } from '@chakra-ui/core'
-import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 
 const ResetButton = ({ socket }) => {
-  const [player] = useLocalStorage(player)
-
-  const onClick = () => {
-    if (player) {
-      writeStorage('player', { ...player, life: 40 })
-    }
-    socket.emit('reset')
-  }
-
+  const onClick = () => socket.emit('reset')
+  
   return (
     <Popover>
       <PopoverTrigger>

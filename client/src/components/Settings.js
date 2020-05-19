@@ -34,12 +34,12 @@ const Settings = () => {
     }
   })
 
-  const [player] = useLocalStorage(player)
+  const [player] = useLocalStorage('player')
   useSocket('reset', () => {
     if (player) {
       writeStorage('player', { ...player, life: 40 })
     }
-    setTimeout(() => window.location.reload())
+    window.location.reload()
   })
 
   return (
