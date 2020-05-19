@@ -39,7 +39,7 @@ const Settings = () => {
     if (player) {
       writeStorage('player', { ...player, life: 40 })
     }
-    window.location.reload()
+    setTimeout(() => window.location.reload())
   })
 
   return (
