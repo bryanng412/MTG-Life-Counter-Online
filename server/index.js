@@ -16,6 +16,7 @@ const {
   getPlayers,
   updatePlayer,
   resetPlayers,
+  updateAllPlayers,
 } = require('./game')
 
 app.use(cors())
@@ -33,7 +34,13 @@ io.on('connection', socket => {
   socket.on('updateAllClients', resp => {
     const updatedPlayer = updatePlayer(resp)
     socket.emit('updatePlayers', updatedPlayer)
-    socket.broadcast.emit('updatePlayers', updatePlayer(resp))
+    socket.broadcast.emit('updatePlayers', updatedPlayer)
+  })
+
+  socket.on('updateAllPlayers', resp => {
+    const updatedPlayers = updateAllPlayers(resp)
+    socket.emit('updatePlayers', updatedPlayers)
+    socket.broadcast.emit('updatePlayers', updatedPlayers)
   })
 
   socket.on('updatePlayer', resp => {

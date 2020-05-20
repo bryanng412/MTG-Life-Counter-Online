@@ -8,7 +8,14 @@ const flat = {
   transition: { delay: 0.3 },
 }
 
-const PlayerItem = ({ player, setPosition, moveItem, i, playerList }) => {
+const PlayerItem = ({
+  player,
+  setPosition,
+  moveItem,
+  i,
+  playerList,
+  updatePlayers,
+}) => {
   const [isDragging, setDragging] = useState(false)
   const ref = useRef(null)
   const dragOriginY = useMotionValue(0)
@@ -31,7 +38,10 @@ const PlayerItem = ({ player, setPosition, moveItem, i, playerList }) => {
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={1}
       onDragStart={() => setDragging(true)}
-      onDragEnd={() => setDragging(false)}
+      onDragEnd={() => {
+        setDragging(false)
+        updatePlayers()
+      }}
       onDrag={(e, { point }) => moveItem(i, point.y)}
       positionTransition={({ delta }) => {
         if (isDragging) {

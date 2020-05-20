@@ -95,10 +95,16 @@ const resetPlayers = () => {
   return { players }
 }
 
+const updateAllPlayers = ({ players: newPlayers }) => {
+  players = newPlayers
+  return { players }
+}
+
 module.exports = {
   addPlayer,
   removePlayer,
   getPlayers,
   updatePlayer,
   resetPlayers,
+  updateAllPlayers,
 }

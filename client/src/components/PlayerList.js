@@ -7,7 +7,7 @@ import Waiting from './Waiting'
 import EditableName from './EditableName'
 import { findIndex } from '../utils/find-index'
 import { minTablet } from '../utils/responsive'
-import { getUpdatedPlayers, getPlayerKey } from '../utils/players'
+import { getPlayerKey } from '../utils/players'
 import move from 'array-move'
 import SocketContext from '../context/socket'
 
@@ -41,6 +41,8 @@ const PlayerList = () => {
   const positions = useRef([]).current
   const setPosition = (i, offset) => (positions[i] = offset)
 
+  const updatePlayers = () => socket.emit('updateAllPlayers', { players })
+
   const moveItem = (i, dragOffset) => {
     const targetIndex = findIndex(i, dragOffset, positions)
     if (targetIndex !== i) {
@@ -50,8 +52,7 @@ const PlayerList = () => {
 
   useEffect(() => {
     if (playerData) {
-      const newPlayers = getUpdatedPlayers(players, playerData.players)
-      setPlayers(newPlayers)
+      setPlayers(playerData.players)
     }
   }, [playerData])
 
@@ -68,6 +69,7 @@ const PlayerList = () => {
               moveItem={moveItem}
               i={i}
               playerList={players}
+              updatePlayers={updatePlayers}
             />
           ))}
         </StyledList>
