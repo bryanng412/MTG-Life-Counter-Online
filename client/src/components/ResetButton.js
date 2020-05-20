@@ -13,7 +13,7 @@ import {
 
 const ResetButton = ({ socket }) => {
   const onClick = () => socket.emit('reset')
-  
+
   return (
     <Popover>
       <PopoverTrigger>
