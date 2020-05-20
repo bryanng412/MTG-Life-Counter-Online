@@ -12,12 +12,10 @@ export default ({ socket }) => {
     const enableNoSleep = () => {
       const noSleep = new NoSleep()
       document.removeEventListener('click', enableNoSleep, false)
-      document.removeEventListener('touchstart', enableNoSleep, false)
       noSleep.enable()
     }
 
     document.addEventListener('click', enableNoSleep, false)
-    document.addEventListener('touchstart', enableNoSleep, false)
   }, [])
 
   return <></>
