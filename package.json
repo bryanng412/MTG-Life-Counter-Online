@@ -22,6 +22,19 @@
   "devDependencies": {
     "concurrently": "^5.2.0",
     "eslint": "6.6.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.7",
     "prettier": "^2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
