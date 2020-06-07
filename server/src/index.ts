@@ -1,34 +1,44 @@
+import express from 'express'
+import http from 'http'
+import WebSocket from 'ws'
+import cors from 'cors'
+import { uuid } from 'uuidv4'
 import {
-  WebSocket,
-  isWebSocketCloseEvent,
-} from 'https://deno.land/std/ws/mod.ts'
-import { v4 } from 'https://deno.land/std/uuid/mod.ts'
+  uniqueNamesGenerator,
+  adjectives,
+  animals,
+  Config,
+} from 'unique-names-generator'
 import {
-  Player,
-  CommanderDamage,
   EVENT,
-  SendGameEvent,
-  SendGamePayload,
   ReceiveGameEvent,
   ReceiveGamePayload,
-} from './types.ts'
+  SendGamePayload,
+  SendGameEvent,
+  Player,
+  CommanderDamage,
+} from './types'
+
+const port = process.env.PORT || 8080
+const app = express()
+const server = http.createServer(app)
+app.use(cors())
+const wss = new WebSocket.Server({ server })
 
 const MAX_PLAYERS = 5
 const STARTING_LIFE = 40
-const PLAYERS: Record<string, Player> = {}
+const PLAYERS: Record<string, Player & { ws: WebSocket }> = {}
 const ROOMS: Record<string, Player[]> = {}
 
-export const gameHandler = async (ws: WebSocket): Promise<void> => {
-  const userId = v4.generate()
+wss.on('connection', (ws: WebSocket) => {
+  const userId = uuid()
 
-  for await (let data of ws) {
-    const { event, room, payload }: ReceiveGameEvent =
-      typeof data === 'string' ? JSON.parse(data) : data
+  ws.on('close', () => {
+    removePlayer(userId)
+  })
 
-    if (isWebSocketCloseEvent(data)) {
-      removePlayer(userId)
-      break
-    }
+  ws.on('message', (message: string) => {
+    const { event, room, payload }: ReceiveGameEvent = JSON.parse(message)
 
     switch (event) {
       case EVENT.JOIN:
@@ -66,8 +76,10 @@ export const gameHandler = async (ws: WebSocket): Promise<void> => {
       case EVENT.PULSE:
         break
     }
-  }
-}
+  })
+})
+
+server.listen(port, () => console.log(`Server started on port ${port}`))
 
 const emitPlayersToRoom = (
   event: EVENT,
@@ -76,11 +88,12 @@ const emitPlayersToRoom = (
   sendingPlayerId?: string
 ): void => {
   const playersInRoom = ROOMS[room] || []
-  playersInRoom.forEach(({ id, ws }) => {
+  playersInRoom.forEach(({ id }) => {
     if (id === sendingPlayerId) {
       return
     }
 
+    const { ws } = PLAYERS[id]
     const response: SendGameEvent = {
       id,
       event,
@@ -154,10 +167,10 @@ const addPlayer = (
   }
 
   const playersWithCmdrDmg = addCmdrDmgToPlayers(id, playerListToJoin)
-  const newPlayer = initPlayer(id, room, ws, name, life)
+  const newPlayer = initPlayer(id, room, name, life)
   playersWithCmdrDmg.push(newPlayer)
 
-  PLAYERS[id] = newPlayer
+  PLAYERS[id] = { ...newPlayer, ws }
   ROOMS[room] = playersWithCmdrDmg
 
   return newPlayer
@@ -185,16 +198,14 @@ const initCmdrDmg = (room: string): CommanderDamage =>
 const initPlayer = (
   id: string,
   room: string,
-  ws: WebSocket,
   name?: string,
   life?: number
 ): Player => ({
-  name: name || `Player ${ROOMS[room].length + 1}`,
+  name: name || generateName(),
   life: life || STARTING_LIFE,
   cmdrDmg: initCmdrDmg(room),
   room,
   id,
-  ws,
 })
 
 const resetCmdrDmg = (cmdrDmg: CommanderDamage): CommanderDamage => {
@@ -217,7 +228,16 @@ const resetPlayers = (room: string): void => {
       ...rest,
     }
 
-    PLAYERS[id] = resetPlayer
+    PLAYERS[id] = { ...resetPlayer, ws: PLAYERS[id].ws }
     return resetPlayer
   })
+}
+
+const generateName = (): string => {
+  const customConfig: Config = {
+    dictionaries: [adjectives, animals],
+    separator: ' ',
+    length: 2,
+  }
+  return uniqueNamesGenerator(customConfig)
 }

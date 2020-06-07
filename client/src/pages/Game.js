@@ -12,8 +12,8 @@ import { useLocalStorage, writeStorage } from '@rehooks/local-storage'
 
 const ENDPOINT =
   process.env.NODE_ENV === 'production'
-    ? 'wss://deno-life-counter-server.herokuapp.com/ws'
-    : 'ws://localhost:8080/ws'
+    ? 'wss://ts-life-counter-server.herokuapp.com'
+    : 'ws://localhost:8080'
 
 const Game = () => {
   const queryParams = new URLSearchParams(useLocation().search)
@@ -62,7 +62,7 @@ const Game = () => {
     }
     window.location.reload()
   }
-
+  
   if (!room || readyState === ReadyState.CLOSED) {
     return <Redirect to="/" />
   }

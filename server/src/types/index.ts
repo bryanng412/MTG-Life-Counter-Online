@@ -1,5 +1,3 @@
-import { WebSocket } from 'https://deno.land/std/ws/mod.ts'
-
 export type CommanderDamage = {
   [id: string]: number
 }
@@ -10,7 +8,6 @@ export type Player = {
   name: string
   life: number
   cmdrDmg: CommanderDamage
-  ws: WebSocket
 }
 
 export enum EVENT {
@@ -20,7 +17,7 @@ export enum EVENT {
   UPDATE_PLAYERS = 'UPDATE_PLAYERS',
   UPDATE_SINGLE_PLAYER = 'UPDATE_SINGLE_PLAYER',
   RESET = 'RESET',
-  PULSE = 'PULSE'
+  PULSE = 'PULSE',
 }
 
 type BaseGameEvent = {

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently npm:start:client npm:start:server",
     "start:client": "cd client; yarn start",
-    "start:server": "cd server; yarn start",
+    "start:server": "cd server; yarn dev",
     "format": "prettier --write ."
   },
   "repository": {
