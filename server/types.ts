@@ -1,0 +1,45 @@
+import { WebSocket } from 'https://deno.land/std/ws/mod.ts'
+
+export type CommanderDamage = {
+  [id: string]: number
+}
+
+export type Player = {
+  id: string
+  room: string
+  name: string
+  life: number
+  cmdrDmg: CommanderDamage
+  ws: WebSocket
+}
+
+export enum EVENT {
+  JOIN = 'JOIN',
+  LEAVE = 'LEAVE',
+  UPDATE_PLAYERS = 'UPDATE_PLAYERS',
+  UPDATE_SINGLE_PLAYER = 'UPDATE_SINGLE_PLAYER',
+  RESET = 'RESET',
+}
+
+type BaseGameEvent = {
+  event: EVENT
+  room: string
+}
+
+export type SendGameEvent = BaseGameEvent & {
+  id: string
+  payload: SendGamePayload
+}
+
+export type ReceiveGameEvent = BaseGameEvent & {
+  payload: ReceiveGamePayload
+}
+
+export type SendGamePayload = {
+  message?: string
+  players: Player[]
+}
+
+export type ReceiveGamePayload = {
+  players?: Player[]
+} & { [Key in keyof Player]?: Player[Key] }

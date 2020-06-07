@@ -1,13 +1,16 @@
 import React, { useContext } from 'react'
 import { Flex, Text, IconButton } from '@chakra-ui/core'
-import Animated from './Animated'
 import { toPlayerObj } from '../utils/players'
 import SocketContext from '../context/socket'
 
-const CommanderDamage = ({ player, playerList, setPlayer }) => {
+const CommanderDamage = ({ player, setPlayer }) => {
   const { cmdrDmg } = player
-  const playerObj = toPlayerObj(playerList)
-  const socket = useContext(SocketContext)
+  const {
+    room,
+    payload: { players },
+    sendJsonMessage,
+  } = useContext(SocketContext)
+  const playerObj = toPlayerObj(players)
 
   const getCmdrDmgHandler = ({ id, isPlus }) => () => {
     const life = cmdrDmg[id]
@@ -19,38 +22,47 @@ const CommanderDamage = ({ player, playerList, setPlayer }) => {
     const newCmdrDmg = { ...cmdrDmg, [id]: newLife }
 
     setPlayer({ ...player, cmdrDmg: newCmdrDmg })
-    socket.emit('updatePlayer', { id: player.id, cmdrDmg: newCmdrDmg })
+    sendJsonMessage({
+      event: 'UPDATE_SINGLE_PLAYER',
+      room,
+      payload: { id: player.id, cmdrDmg: newCmdrDmg },
+    })
   }
 
   return (
-    <Animated>
-      <Flex
-        height="11.25rem"
-        width="100%"
-        direction="column"
-        justify="center"
-        align="center"
-      >
-        {Object.keys(cmdrDmg).map(id => (
-          <Flex key={id} justify="center" align="center">
-            <Text mr="1.5rem">{playerObj[id].name}</Text>
-            <IconButton
-              size="xs"
-              icon="minus"
-              onClick={getCmdrDmgHandler({ id })}
-            />
-            <Text mx="0.75rem" fontSize="2xl">
-              {cmdrDmg[id]}
-            </Text>
-            <IconButton
-              size="xs"
-              icon="add"
-              onClick={getCmdrDmgHandler({ id, isPlus: true })}
-            />
-          </Flex>
-        ))}
-      </Flex>
-    </Animated>
+    <Flex
+      width="100%"
+      height="100%"
+      direction="column"
+      justify="center"
+      align="center"
+    >
+      {Object.keys(cmdrDmg).length === 0 ? (
+        <Text>No other players</Text>
+      ) : (
+        Object.keys(cmdrDmg).map(
+          id =>
+            playerObj[id] && (
+              <Flex key={id} justify="center" align="center">
+                <Text mr="1.5rem">{playerObj[id].name}</Text>
+                <IconButton
+                  size="xs"
+                  icon="minus"
+                  onClick={getCmdrDmgHandler({ id })}
+                />
+                <Text mx="0.75rem" fontSize="2xl">
+                  {cmdrDmg[id]}
+                </Text>
+                <IconButton
+                  size="xs"
+                  icon="add"
+                  onClick={getCmdrDmgHandler({ id, isPlus: true })}
+                />
+              </Flex>
+            )
+        )
+      )}
+    </Flex>
   )
 }
 

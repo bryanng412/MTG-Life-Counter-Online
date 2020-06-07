@@ -1,59 +1,57 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { Box, Text, Flex, IconButton, useColorMode } from '@chakra-ui/core'
+import { AnimatePresence } from 'framer-motion'
 import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
+import Animated from './Animated'
 import EditableName from './EditableName'
 import CommanderButton from './CommanderButton'
 import CommanderDamage from './CommanderDamage'
 import SocketContext from '../context/socket'
-import { doesPlayerMatch } from '../utils/players'
 
-const PlayerCard = ({ player: initialPlayer, playerList }) => {
+const PlayerCard = ({ player: initialPlayer }) => {
+  const { id: socketId, sendJsonMessage, room } = useContext(SocketContext)
   const { colorMode } = useColorMode()
-  const socket = useContext(SocketContext)
   const [showCmdrDamage, setShowCmdrDamage] = useState(false)
-  const [storagePlayer] = useLocalStorage('player')
+  const [storagePlayer = {}] = useLocalStorage('player')
 
   const [player, setPlayer] = useState(initialPlayer)
   const { name, life: initialLife, id } = player
   const [life, setLife] = useState(initialLife)
-  const belongsToUser = socket.id === id
-
-  const getLifeHandler = ({ isPlus } = {}) => () => {
-    const newLife = isPlus ? life + 1 : life - 1
-    setLife(newLife)
-    socket.emit('updatePlayer', { id, life: newLife })
-  }
-
+  const belongsToUser = socketId === id
   const bg = {
     light: belongsToUser ? 'green.200' : 'white',
     dark: belongsToUser ? 'purple.800' : 'gray.700',
   }
 
-  useEffect(() => {
-    if (
-      socket &&
-      belongsToUser &&
-      (doesPlayerMatch(storagePlayer, player) || !storagePlayer)
-    ) {
-      writeStorage('player', { name, life })
+  const getLifeHandler = ({ isPlus } = {}) => () => {
+    const newLife = isPlus ? life + 1 : life - 1
+    setLife(newLife)
+
+    if (belongsToUser) {
+      writeStorage('player', { ...storagePlayer, life: newLife })
     }
 
-    if (
-      socket &&
-      belongsToUser &&
-      storagePlayer &&
-      !doesPlayerMatch(storagePlayer, player)
-    ) {
-      socket.emit('updateAllClients', {
-        id,
-        name: storagePlayer.name,
-        life: storagePlayer.life,
-      })
-    }
-  }, [socket, name, life])
+    sendJsonMessage({
+      event: 'UPDATE_SINGLE_PLAYER',
+      room,
+      payload: { id, life: newLife },
+    })
+  }
+
+  const onNameSubmit = name => {
+    sendJsonMessage({
+      event: 'UPDATE_SINGLE_PLAYER',
+      room,
+      payload: { id, name },
+    })
+  }
 
   return (
     <Box
+      minHeight={{
+        base: belongsToUser ? '10rem' : '8rem',
+        md: belongsToUser ? '12rem' : '10rem',
+      }}
       bg={bg[colorMode]}
       borderWidth="2px"
       rounded="lg"
@@ -65,32 +63,39 @@ const PlayerCard = ({ player: initialPlayer, playerList }) => {
         showCmdrDamage={showCmdrDamage}
         onClick={() => setShowCmdrDamage(!showCmdrDamage)}
       />
-      {showCmdrDamage ? (
-        <CommanderDamage
-          player={player}
-          playerList={playerList}
-          setPlayer={setPlayer}
-        />
-      ) : (
-        <>
-          <Flex justify="center" align="center">
-            <IconButton size="sm" icon="minus" onClick={getLifeHandler()} />
-            <Text
-              mx={['1rem', '1rem', '1.5rem', '1.5rem']}
-              textAlign="center"
-              fontSize={{ base: '5xl', md: '6xl' }}
-            >
-              {life}
-            </Text>
-            <IconButton
-              size="sm"
-              icon="add"
-              onClick={getLifeHandler({ isPlus: true })}
+      <AnimatePresence>
+        {showCmdrDamage && (
+          <Animated>
+            <CommanderDamage player={player} setPlayer={setPlayer} />
+          </Animated>
+        )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
+        {!showCmdrDamage && (
+          <Animated>
+            <Flex justify="center" align="center">
+              <IconButton size="sm" icon="minus" onClick={getLifeHandler()} />
+              <Text
+                mx={['1rem', '1rem', '1.5rem', '1.5rem']}
+                textAlign="center"
+                fontSize={{ base: '5xl', md: '6xl' }}
+              >
+                {life}
+              </Text>
+              <IconButton
+                size="sm"
+                icon="add"
+                onClick={getLifeHandler({ isPlus: true })}
+              />
+            </Flex>
+            <EditableName
+              name={name}
+              onSubmit={onNameSubmit}
+              editable={belongsToUser}
             />
-          </Flex>
-          <EditableName name={name} id={id} editable={belongsToUser} />
-        </>
-      )}
+          </Animated>
+        )}
+      </AnimatePresence>
     </Box>
   )
 }

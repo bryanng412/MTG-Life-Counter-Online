@@ -1,23 +1,22 @@
 import React from 'react'
-import { SocketIOProvider } from 'use-socketio'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core'
-import PlayerList from './components/PlayerList'
-import Settings from './components/Settings'
+import Landing from './pages/Landing'
+import Game from './pages/Game'
 import { defaultTheme } from './themes'
-
-const ENDPOINT =
-  process.env.NODE_ENV === 'production'
-    ? 'https://life-counter-server.herokuapp.com'
-    : 'http://localhost:8080'
 
 const App = () => (
   <ThemeProvider theme={defaultTheme}>
     <ColorModeProvider>
       <CSSReset />
-      <SocketIOProvider url={ENDPOINT}>
-        <Settings />
-        <PlayerList />
-      </SocketIOProvider>
+      <Router>
+        <Route exact path="/">
+          <Landing />
+        </Route>
+        <Route path="/game">
+          <Game />
+        </Route>
+      </Router>
     </ColorModeProvider>
   </ThemeProvider>
 )

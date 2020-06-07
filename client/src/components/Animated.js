@@ -3,8 +3,10 @@ import { motion } from 'framer-motion'
 
 const Animated = ({ children }) => (
   <motion.div
-    initial={{ opacity: 0, x: -1000 }}
+    style={{ position: 'absolute', width: '100%', height: '100%' }}
+    initial={{ opacity: 0, x: -200 }}
     animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: 200 }}
     transition={{
       x: { type: 'spring', stiffness: 300, damping: 200 },
       opacity: { duration: 0.1 },

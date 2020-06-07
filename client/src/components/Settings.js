@@ -1,7 +1,5 @@
 import React from 'react'
-import { useSocket } from 'use-socketio'
 import {
-  useToast,
   IconButton,
   useColorMode,
   Flex,
@@ -16,38 +14,17 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/core'
 import ResetButton from './ResetButton'
-import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 
-const Settings = () => {
-  const toast = useToast()
+const Settings = ({ inGame }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
-
-  const { socket } = useSocket('updatePlayers', ({ message, isLeaving }) => {
-    if (message) {
-      toast({
-        title: isLeaving ? 'GG' : 'Challenger approaching!',
-        description: message,
-        status: 'success',
-        isClosable: true,
-      })
-    }
-  })
-
-  const [player] = useLocalStorage('player')
-  useSocket('reset', () => {
-    if (player) {
-      writeStorage('player', { ...player, life: 40 })
-    }
-    window.location.reload()
-  })
 
   return (
     <>
       <Flex justify="center" pos="relative">
         <IconButton
-          mt="4"
-          mr="4"
+          mt="2"
+          mr="2"
           size="sm"
           pos={{ base: 'absolute', md: 'static' }}
           top={0}
@@ -72,7 +49,7 @@ const Settings = () => {
                 icon={colorMode === 'light' ? 'moon' : 'sun'}
                 onClick={toggleColorMode}
               />
-              <ResetButton socket={socket} />
+              {inGame && <ResetButton />}
             </ButtonGroup>
           </ModalBody>
           <ModalFooter>more features coming soon!</ModalFooter>

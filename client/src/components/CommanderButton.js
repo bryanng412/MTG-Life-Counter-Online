@@ -10,6 +10,7 @@ export default ({ showCmdrDamage, ...rest }) => (
     icon={showCmdrDamage ? 'arrow-back' : 'cmdr'}
     fill="currentColor"
     fontSize="20px"
+    zIndex="1"
     {...rest}
   />
 )

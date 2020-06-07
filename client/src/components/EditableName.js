@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
   ButtonGroup,
   IconButton,
@@ -7,16 +7,21 @@ import {
   EditableInput,
   EditablePreview,
 } from '@chakra-ui/core'
-import SocketContext from '../context/socket'
 import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 
-const EditableName = ({ name, id, placeholder = '', editable = true }) => {
+const EditableName = ({
+  name,
+  placeholder = '',
+  editable = true,
+  onSubmit,
+}) => {
   const [storagePlayer] = useLocalStorage('player')
-  const socket = useContext(SocketContext)
 
   const submitHandler = newName => {
     writeStorage('player', { ...storagePlayer, name: newName })
-    socket.emit('updateAllClients', { id, name: newName })
+    if (onSubmit) {
+      onSubmit(newName)
+    }
   }
 
   return (

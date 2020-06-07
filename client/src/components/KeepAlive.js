@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
+import SocketContext from '../context/socket'
 import NoSleep from 'nosleep.js'
 
-export default ({ socket }) => {
-  useEffect(() => {
-    if (socket) {
-      setInterval(() => socket.emit('keepAlive'), 300000)
+export default () => {
+  const { sendJsonMessage } = useContext(SocketContext)
+  setInterval(() => {
+    if (sendJsonMessage) {
+      sendJsonMessage({ event: 'KEEP_ALIVE' })
     }
-  }, [socket])
+  }, 300000)
 
   useEffect(() => {
     const enableNoSleep = () => {
