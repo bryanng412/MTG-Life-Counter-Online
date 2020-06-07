@@ -40,13 +40,9 @@ export const gameHandler = async (ws: WebSocket): Promise<void> => {
         }
         emitPlayersToRoom(EVENT.JOIN, room, responsePayload)
         break
-      case EVENT.UPDATE_PLAYERS:
+      case EVENT.UPDATE_PLAYERS_ORDER:
         const { players = [] } = payload
-        ROOMS[room] = players.map(({ id, ...rest }) => ({
-          id,
-          ...rest,
-          ws: PLAYERS[id].ws,
-        }))
+        ROOMS[room] = players.map(id => PLAYERS[id]).filter(player => !!player)
 
         emitPlayersToRoom(EVENT.UPDATE_PLAYERS, room, {
           players: ROOMS[room],
@@ -66,6 +62,8 @@ export const gameHandler = async (ws: WebSocket): Promise<void> => {
       case EVENT.RESET:
         resetPlayers(room)
         emitPlayersToRoom(EVENT.RESET, room, { players: ROOMS[room] })
+        break
+      case EVENT.PULSE:
         break
     }
   }

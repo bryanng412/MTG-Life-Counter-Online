@@ -6,7 +6,7 @@ export default () => {
   const { sendJsonMessage } = useContext(SocketContext)
   setInterval(() => {
     if (sendJsonMessage) {
-      sendJsonMessage({ event: 'KEEP_ALIVE' })
+      sendJsonMessage({ event: 'PULSE' })
     }
   }, 300000)
 

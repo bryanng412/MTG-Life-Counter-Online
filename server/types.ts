@@ -16,9 +16,11 @@ export type Player = {
 export enum EVENT {
   JOIN = 'JOIN',
   LEAVE = 'LEAVE',
+  UPDATE_PLAYERS_ORDER = 'UPDATE_PLAYERS_ORDER',
   UPDATE_PLAYERS = 'UPDATE_PLAYERS',
   UPDATE_SINGLE_PLAYER = 'UPDATE_SINGLE_PLAYER',
   RESET = 'RESET',
+  PULSE = 'PULSE'
 }
 
 type BaseGameEvent = {
@@ -41,5 +43,5 @@ export type SendGamePayload = {
 }
 
 export type ReceiveGamePayload = {
-  players?: Player[]
+  players?: string[]
 } & { [Key in keyof Player]?: Player[Key] }
