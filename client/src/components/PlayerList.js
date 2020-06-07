@@ -32,7 +32,7 @@ const StyledList = styled.ul`
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([])
-  const { payload: playerData, sendJsonMessage } = useContext(SocketContext)
+  const { room, payload: playerData, sendJsonMessage } = useContext(SocketContext)
   const positions = useRef([]).current
 
   const setPosition = (i, offset) => (positions[i] = offset)
@@ -44,8 +44,7 @@ const PlayerList = () => {
   }
 
   const updatePlayers = () => {
-    console.log('updating players')
-    sendJsonMessage({ event: 'UPDATE_PLAYERS_ORDER', room: '', payload: { players: players.map(({ id }) => id) } })
+    sendJsonMessage({ event: 'UPDATE_PLAYERS_ORDER', room, payload: { players: players.map(({ id }) => id) } })
   }
 
   useEffect(() => {
