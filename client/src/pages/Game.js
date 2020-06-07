@@ -12,7 +12,7 @@ import { useLocalStorage, writeStorage } from '@rehooks/local-storage'
 
 const ENDPOINT =
   process.env.NODE_ENV === 'production'
-    ? 'ws://deno-life-counter-server.herokuapp.com/ws'
+    ? 'wss://deno-life-counter-server.herokuapp.com/ws'
     : 'ws://localhost:8080/ws'
 
 const Game = () => {
