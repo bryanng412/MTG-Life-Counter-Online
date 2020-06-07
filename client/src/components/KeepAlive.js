@@ -8,7 +8,7 @@ export default () => {
     if (sendJsonMessage) {
       sendJsonMessage({ event: 'PULSE' })
     }
-  }, 300000)
+  }, 5000)
 
   useEffect(() => {
     const enableNoSleep = () => {
