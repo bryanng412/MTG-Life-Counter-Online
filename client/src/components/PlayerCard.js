@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Box, Text, Flex, IconButton, useColorMode } from '@chakra-ui/core'
 import { AnimatePresence } from 'framer-motion'
 import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
@@ -7,6 +7,7 @@ import EditableName from './EditableName'
 import CommanderButton from './CommanderButton'
 import CommanderDamage from './CommanderDamage'
 import SocketContext from '../context/socket'
+import { doesPlayerMatch } from '../utils/players'
 
 const PlayerCard = ({ player: initialPlayer }) => {
   const { id: socketId, sendJsonMessage, room } = useContext(SocketContext)
@@ -22,6 +23,13 @@ const PlayerCard = ({ player: initialPlayer }) => {
     light: belongsToUser ? 'green.200' : 'white',
     dark: belongsToUser ? 'purple.800' : 'gray.700',
   }
+
+  useEffect(() => {
+    if (belongsToUser && doesPlayerMatch(storagePlayer, player)) {
+      writeStorage('player', { ...storagePlayer, life })
+    }
+  }, [life])
+
 
   const getLifeHandler = ({ isPlus } = {}) => () => {
     const newLife = isPlus ? life + 1 : life - 1
