@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core'
 import Landing from './pages/Landing'
 import Game from './pages/Game'
@@ -10,12 +10,17 @@ const App = () => (
     <ColorModeProvider>
       <CSSReset />
       <Router>
-        <Route exact path="/">
-          <Landing />
-        </Route>
-        <Route path="/game">
-          <Game />
-        </Route>
+        <Switch>
+          <Route exact path="/">
+            <Landing />
+          </Route>
+          <Route path="/game">
+            <Game />
+          </Route>
+          <Route path="*">
+            <Landing />
+          </Route>
+        </Switch>
       </Router>
     </ColorModeProvider>
   </ThemeProvider>
