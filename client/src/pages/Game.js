@@ -39,7 +39,7 @@ const Game = () => {
         const { event, payload } = JSON.parse(e.data)
         const { message } = payload
 
-        if (message) {
+        if (message && room) {
           setTimeout(() =>
             toast({
               title: event === 'LEAVE' ? 'GG' : 'Challenger approaching!',
