@@ -12,6 +12,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  SlideIn
 } from '@chakra-ui/core'
 import ResetButton from './ResetButton'
 
@@ -33,28 +34,32 @@ const Settings = ({ inGame }) => {
           onClick={onOpen}
         />
       </Flex>
-      <Modal
-        onClose={onClose}
-        isOpen={isOpen}
-        size={{ base: 'xs', sm: 'md', md: 'lg' }}
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Thanks for using MTG Life Counter Online!</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody display="flex" justifyContent="center">
-            <ButtonGroup spacing={8}>
-              <IconButton
-                icon={colorMode === 'light' ? 'moon' : 'sun'}
-                onClick={toggleColorMode}
-              />
-              {inGame && <ResetButton />}
-            </ButtonGroup>
-          </ModalBody>
-          <ModalFooter>more features coming soon!</ModalFooter>
-        </ModalContent>
-      </Modal>
+      <SlideIn in={isOpen}>
+        {styles => (
+          <Modal
+            onClose={onClose}
+            isOpen={isOpen}
+            size={{ base: 'xs', sm: 'md', md: 'lg' }}
+            isCentered
+          >
+            <ModalOverlay />
+            <ModalContent {...styles}>
+              <ModalHeader>Thanks for using MTG Life Counter Online!</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody display="flex" justifyContent="center">
+                <ButtonGroup spacing={8}>
+                  <IconButton
+                    icon={colorMode === 'light' ? 'moon' : 'sun'}
+                    onClick={toggleColorMode}
+                  />
+                  {inGame && <ResetButton />}
+                </ButtonGroup>
+              </ModalBody>
+              <ModalFooter>more features coming soon!</ModalFooter>
+            </ModalContent>
+          </Modal>
+        )}
+      </SlideIn>
     </>
   )
 }
