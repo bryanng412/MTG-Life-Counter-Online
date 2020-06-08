@@ -54,7 +54,7 @@ wss.on('connection', (ws: WebSocket) => {
         const { players = [] } = payload
         ROOMS[room] = players.map(id => PLAYERS[id]).filter(player => !!player)
 
-        emitPlayersToRoom(EVENT.UPDATE_PLAYERS, room, {
+        emitPlayersToRoom(EVENT.UPDATE_PLAYERS_ORDER, room, {
           players: ROOMS[room],
         } as SendGamePayload)
         break
@@ -170,8 +170,15 @@ const addPlayer = (
   const newPlayer = initPlayer(id, room, name, life)
   playersWithCmdrDmg.push(newPlayer)
 
-  PLAYERS[id] = { ...newPlayer, ws }
   ROOMS[room] = playersWithCmdrDmg
+
+  ROOMS[room].forEach(({ id: playerId, cmdrDmg, ...rest }) => {
+    const addInfo = playerId === id
+      ? { cmdrDmg, ws }
+      : { cmdrDmg, ws: PLAYERS[playerId].ws }
+
+    PLAYERS[playerId] = { id: playerId, ...rest, ...addInfo }
+  })
 
   return newPlayer
 }
