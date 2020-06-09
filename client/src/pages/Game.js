@@ -1,12 +1,13 @@
 import React from 'react'
 import { useLocation, Redirect } from 'react-router-dom'
-import { useToast } from '@chakra-ui/core'
+import { useToast, useColorMode } from '@chakra-ui/core'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import Settings from '../components/Settings'
 import PlayerList from '../components/PlayerList'
 import Waiting from '../components/Waiting'
 import KeepAlive from '../components/KeepAlive'
 import ShareLink from '../components/ShareLink'
+import Toast from '../components/Toast'
 import SocketContext from '../context/socket'
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage'
 
@@ -19,6 +20,7 @@ const Game = () => {
   const queryParams = new URLSearchParams(useLocation().search)
   const room = queryParams.get('room')
   const toast = useToast()
+  const { colorMode } = useColorMode()
   const [storagePlayer = {}] = useLocalStorage('player')
   const { name, life } = storagePlayer
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
@@ -42,11 +44,17 @@ const Game = () => {
         if (message && room) {
           setTimeout(() =>
             toast({
-              title: event === 'LEAVE' ? 'GG' : 'Challenger approaching!',
-              description: message,
               status: 'success',
               isClosable: true,
               duration: 3000,
+              render: props => (
+                <Toast
+                  colorMode={colorMode}
+                  title={event === 'LEAVE' ? 'GG' : 'Challenger approaching!'}
+                  message={message}
+                  {...props}
+                />
+              ),
             })
           )
         }
@@ -62,7 +70,7 @@ const Game = () => {
     }
     window.location.reload()
   }
-  
+
   if (!room || readyState === ReadyState.CLOSED) {
     return <Redirect to="/" />
   }
