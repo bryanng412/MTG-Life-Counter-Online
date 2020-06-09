@@ -26,8 +26,8 @@ const Error = ({ showError }) => (
     exit={{ opacity: 0, y: 10 }}
   >
     <Flex justifyContent="center" alignItems="center">
-      <Icon color="red.500" size="12px" name="info-outline" mr=".25rem" />
-      <Text color="red.500" fontSize="sm">
+      <Icon color="#E53E3E" size="12px" name="info-outline" mr=".25rem" />
+      <Text color="#E53E3E" fontSize="sm">
         Enter a room name
       </Text>
     </Flex>
@@ -91,6 +91,7 @@ const JoinGame = () => {
         onFocus={() => setError(false)}
       />
       <Input
+        errorBorderColor="#E53E3E"
         variant="filled"
         name="room"
         value={room}
