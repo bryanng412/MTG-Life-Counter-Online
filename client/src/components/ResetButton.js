@@ -45,8 +45,9 @@ const ResetButton = () => {
           <Button
             onClick={onClick}
             size="sm"
-            bg="red.500"
-            _hover={{ bg: 'red.600' }}
+            color="#FFFFFF"
+            bg="#E53E3E"
+            _hover={{ bg: '#C53030' }}
           >
             Reset
           </Button>

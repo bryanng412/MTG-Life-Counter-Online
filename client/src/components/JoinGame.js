@@ -1,6 +1,14 @@
 import React, { useState, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box, Flex, Input, Button, Text, Icon } from '@chakra-ui/core'
+import {
+  Box,
+  Flex,
+  Input,
+  Button,
+  Text,
+  Icon,
+  useColorMode,
+} from '@chakra-ui/core'
 import { motion, AnimatePresence } from 'framer-motion'
 import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 import formDataEntries from 'form-data-entries'
@@ -27,6 +35,7 @@ const Error = ({ showError }) => (
 )
 
 const JoinGame = () => {
+  const { colorMode } = useColorMode()
   const formRef = useRef(null)
   const [showError, setError] = useState(false)
   const [storagePlayer = {}] = useLocalStorage('player')
@@ -54,6 +63,11 @@ const JoinGame = () => {
       room: roomValue,
     })
     history.push(`/game?room=${roomValue}`)
+  }
+
+  const buttonBg = {
+    light: 'green.200',
+    dark: 'purple.800',
   }
 
   return (
@@ -90,7 +104,13 @@ const JoinGame = () => {
         required
       />
       <AnimatePresence>{showError && <Error />}</AnimatePresence>
-      <Button d="block" mx="auto" mt="2rem" type="submit" variantColor="cyan">
+      <Button
+        d="block"
+        mx="auto"
+        mt="2rem"
+        type="submit"
+        backgroundColor={buttonBg[colorMode]}
+      >
         Join game
       </Button>
     </Box>

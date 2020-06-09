@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Global, css } from '@emotion/core'
 import {
   IconButton,
   useColorMode,
@@ -12,17 +13,27 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  SlideIn
+  SlideIn,
 } from '@chakra-ui/core'
 import ResetButton from './ResetButton'
 import RNG from './RNG'
+import ColorContext from '../context/color'
 
 const Settings = ({ inGame }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
+  const colors = useContext(ColorContext)
+  const bg = { light: colors.white }
 
   return (
     <>
+      <Global
+        styles={css`
+          html {
+            background-color: ${bg[colorMode]};
+          }
+        `}
+      />
       <Flex justify="center" pos="relative">
         <IconButton
           mt="2"
@@ -45,9 +56,16 @@ const Settings = ({ inGame }) => {
           >
             <ModalOverlay />
             <ModalContent {...styles}>
-              <ModalHeader>Thanks for using MTG Life Counter Online!</ModalHeader>
+              <ModalHeader>
+                Thanks for using MTG Life Counter Online!
+              </ModalHeader>
               <ModalCloseButton />
-              <ModalBody display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+              <ModalBody
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+              >
                 <ButtonGroup spacing={8}>
                   <IconButton
                     icon={colorMode === 'light' ? 'moon' : 'sun'}
