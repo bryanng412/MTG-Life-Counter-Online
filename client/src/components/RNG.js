@@ -9,11 +9,11 @@ import {
     SliderTrack,
     SliderFilledTrack,
     SliderThumb,
+    Spinner
 } from '@chakra-ui/core'
 
 const UPPER_BOUND = 20
-const RNG_INTERVAL = 75 //ms
-const RNG_ROLLS = 7
+const ROLL_TIMEOUT = 525 //ms
 
 const RNG = () => {
     const [upperBound, setUpperBound] = useState(20)
@@ -25,19 +25,12 @@ const RNG = () => {
 
     useEffect(() => {
         if (isRolling) {
-            let numRolls = 0
-            const interval = setInterval(() => {
-                const num = Math.floor(Math.random() * upperBound + 1)
-                setNumber(num)
-                numRolls++
+            const timeout = setTimeout(() => {
+                setNumber(Math.floor(Math.random() * upperBound + 1))
+                setIsRolling(false)
+            }, ROLL_TIMEOUT)
 
-                if (numRolls === RNG_ROLLS) {
-                    clearInterval(interval)
-                    setIsRolling(false)
-                }
-            }, RNG_INTERVAL)
-
-            return () => clearInterval(interval)
+            return () => clearTimeout(timeout)
         }
     }, [isRolling, upperBound])
 
@@ -48,20 +41,23 @@ const RNG = () => {
                     RNG
                 </Button>
                 {isOpen &&
-                    <Button mt="1rem" onClick={setIsRolling}>
+                    <Button mt="1rem" onClick={() => setIsRolling(true)}>
                         Roll
                     </Button>
                 }
             </ButtonGroup>
             <Collapse mt={4} isOpen={isOpen}>
-                <Flex width="16rem" height="5rem" direction="column" m="1rem">
+                <Flex width="16rem" height="5rem" direction="column" m="1rem" alignItems="center">
                     <Text>Roll a number between 1 and {upperBound}</Text>
                     <Slider size="lg" defaultValue={20} min={2} max={UPPER_BOUND} onChange={setUpperBound}>
                         <SliderTrack />
                         <SliderFilledTrack />
                         <SliderThumb />
                     </Slider>
-                    <Text fontSize="5xl" textAlign="center">{randomNumber || '?'}</Text>
+                    {isRolling
+                        ? <Flex mt="1.25rem"><Spinner pt="1rem" size="lg" /></Flex>
+                        : <Text fontSize="5xl" textAlign="center">{randomNumber || '?'}</Text>
+                    }
                 </Flex>
             </Collapse>
         </>
