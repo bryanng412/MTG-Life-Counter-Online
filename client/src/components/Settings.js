@@ -15,6 +15,7 @@ import {
   SlideIn
 } from '@chakra-ui/core'
 import ResetButton from './ResetButton'
+import RNG from './RNG'
 
 const Settings = ({ inGame }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -46,7 +47,7 @@ const Settings = ({ inGame }) => {
             <ModalContent {...styles}>
               <ModalHeader>Thanks for using MTG Life Counter Online!</ModalHeader>
               <ModalCloseButton />
-              <ModalBody display="flex" justifyContent="center">
+              <ModalBody display="flex" flexDirection="column" alignItems="center" justifyContent="center">
                 <ButtonGroup spacing={8}>
                   <IconButton
                     icon={colorMode === 'light' ? 'moon' : 'sun'}
@@ -54,6 +55,7 @@ const Settings = ({ inGame }) => {
                   />
                   {inGame && <ResetButton />}
                 </ButtonGroup>
+                <RNG />
               </ModalBody>
               <ModalFooter>more features coming soon!</ModalFooter>
             </ModalContent>
