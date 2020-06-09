@@ -46,7 +46,11 @@ const PlayerList = () => {
   }
 
   const updatePlayers = () => {
-    sendJsonMessage({ event: 'UPDATE_PLAYERS_ORDER', room, payload: { players: players.map(({ id }) => id) } })
+    sendJsonMessage({
+      event: 'UPDATE_PLAYERS_ORDER',
+      room,
+      payload: { players: players.map(({ id }) => id) },
+    })
   }
 
   useEffect(() => {

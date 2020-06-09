@@ -32,7 +32,6 @@ const PlayerCard = ({ player: initialPlayer }) => {
     }
   }, [life])
 
-
   const getLifeHandler = ({ isPlus, lifeDelta = 1 } = {}) => () => {
     if (isLongPressing && lifeDelta === 1) {
       return
@@ -52,8 +51,13 @@ const PlayerCard = ({ player: initialPlayer }) => {
     })
   }
 
-  const { isLongPressing: isAddPressing, ...addLifeLongPress } = useLongPress(getLifeHandler({ isPlus: true, lifeDelta: 10 }))
-  const { isLongPressing: isMinusPressing, ...minusLifeLongPress } = useLongPress(getLifeHandler({ lifeDelta: 10 }))
+  const { isLongPressing: isAddPressing, ...addLifeLongPress } = useLongPress(
+    getLifeHandler({ isPlus: true, lifeDelta: 10 })
+  )
+  const {
+    isLongPressing: isMinusPressing,
+    ...minusLifeLongPress
+  } = useLongPress(getLifeHandler({ lifeDelta: 10 }))
 
   useEffect(() => {
     setTimeout(() => setIsLongPressing(isAddPressing || isMinusPressing), 100)
@@ -95,7 +99,12 @@ const PlayerCard = ({ player: initialPlayer }) => {
         {!showCmdrDamage && (
           <Animated>
             <Flex justify="center" align="center">
-              <IconButton size="sm" icon="minus" onClick={getLifeHandler()} {...minusLifeLongPress} />
+              <IconButton
+                size="sm"
+                icon="minus"
+                onClick={getLifeHandler()}
+                {...minusLifeLongPress}
+              />
               <Text
                 mx={['1rem', '1rem', '1.5rem', '1.5rem']}
                 textAlign="center"

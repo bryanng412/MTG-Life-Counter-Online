@@ -3,11 +3,7 @@ import http from 'http'
 import WebSocket from 'ws'
 import cors from 'cors'
 import { uuid } from 'uuidv4'
-import {
-  EVENT,
-  ReceiveGameEvent,
-  SendGamePayload,
-} from './types'
+import { EVENT, ReceiveGameEvent, SendGamePayload } from './types'
 import {
   removePlayer,
   addPlayer,
@@ -15,7 +11,7 @@ import {
   updatePlayer,
   resetPlayers,
   getPlayersRoom,
-  updatePlayersOrder
+  updatePlayersOrder,
 } from './game'
 
 const port = process.env.PORT || 8080
@@ -64,7 +60,9 @@ wss.on('connection', (ws: WebSocket) => {
         break
       case EVENT.RESET:
         resetPlayers(room)
-        emitPlayersToRoom(EVENT.RESET, room, { players: getPlayersRoom(room) } as SendGamePayload)
+        emitPlayersToRoom(EVENT.RESET, room, {
+          players: getPlayersRoom(room),
+        } as SendGamePayload)
         break
       case EVENT.PULSE:
         break
