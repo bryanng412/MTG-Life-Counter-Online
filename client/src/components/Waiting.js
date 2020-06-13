@@ -16,11 +16,7 @@ const Waiting = ({ message }) => (
         src={pngImg}
       />
     </picture>
-    {message && (
-      <Text fontSize={{ base: 'xl', sm: '3xl' }} marginY="1rem">
-        {message}
-      </Text>
-    )}
+    {message && <Text fontSize={{ base: 'xl', sm: '3xl' }}>{message}</Text>}
   </Flex>
 )
 
