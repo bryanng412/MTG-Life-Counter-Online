@@ -37,7 +37,7 @@ const Settings = ({ inGame }) => {
     writeStorage('player', { ...storagePlayer, colorTheme: undefined })
   }
 
-  const activatedTabBorderBottoColor = colors[colorMode].bg
+  const activatedTabBorderBottomColor = colors[colorMode].bg
     ? colors[colorMode].bg
     : colorMode === 'light'
     ? '#FFF'
@@ -64,7 +64,7 @@ const Settings = ({ inGame }) => {
               colors[colorMode].main &&
               `color: ${colors[colorMode].main} !important;`
             }
-            border-bottom-color: ${activatedTabBorderBottoColor} !important;
+            border-bottom-color: ${activatedTabBorderBottomColor} !important;
           }
 
           button[role="tab"] {
