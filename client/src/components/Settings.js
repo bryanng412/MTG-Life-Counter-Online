@@ -4,7 +4,6 @@ import {
   IconButton,
   useColorMode,
   Flex,
-  ButtonGroup,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -14,23 +13,61 @@ import {
   ModalBody,
   ModalCloseButton,
   SlideIn,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from '@chakra-ui/core'
 import ResetButton from './ResetButton'
 import RNG from './RNG'
+import Themes from './Themes'
 import ColorContext from '../context/color'
+import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 
 const Settings = ({ inGame }) => {
+  const [storagePlayer = {}] = useLocalStorage('player')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
   const colors = useContext(ColorContext)
-  const bg = { light: colors.white }
+
+  const setColorMode = () => {
+    toggleColorMode()
+    writeStorage('player', { ...storagePlayer, colorTheme: undefined })
+  }
+
+  const activatedTabBorderBottoColor = colors[colorMode].bg
+    ? colors[colorMode].bg
+    : colorMode === 'light'
+    ? '#FFF'
+    : '#2D3748'
 
   return (
     <>
       <Global
         styles={css`
           html {
-            background-color: ${bg[colorMode]};
+            background-color: ${colors[colorMode].bg};
+            color: ${colors[colorMode].text}
+          }
+
+          button[type="button"], button[type="submit"] {
+            ${
+              colors[colorMode].sub &&
+              `background-color: ${colors[colorMode].sub};`
+            }
+          }
+          
+          button[aria-selected=true] {
+            ${
+              colors[colorMode].main &&
+              `color: ${colors[colorMode].main} !important;`
+            }
+            border-bottom-color: ${activatedTabBorderBottoColor} !important;
+          }
+
+          button[role="tab"] {
+            background-color: transparent;
           }
         `}
       />
@@ -55,25 +92,41 @@ const Settings = ({ inGame }) => {
             isCentered
           >
             <ModalOverlay />
-            <ModalContent {...styles}>
+            <ModalContent {...styles} backgroundColor={colors[colorMode].bg}>
               <ModalHeader>
                 Thanks for using MTG Life Counter Online!
               </ModalHeader>
               <ModalCloseButton />
-              <ModalBody
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <ButtonGroup spacing={8}>
-                  <IconButton
-                    icon={colorMode === 'light' ? 'moon' : 'sun'}
-                    onClick={toggleColorMode}
-                  />
-                  {inGame && <ResetButton />}
-                </ButtonGroup>
-                <RNG />
+              <ModalBody>
+                <Tabs variant="enclosed" isFitted>
+                  <TabList>
+                    <Tab>Game</Tab>
+                    <Tab>Themes</Tab>
+                  </TabList>
+                  <TabPanels pt="1rem">
+                    <TabPanel
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      {inGame && <ResetButton />}
+                      <RNG />
+                    </TabPanel>
+                    <TabPanel
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <IconButton
+                        icon={colorMode === 'light' ? 'moon' : 'sun'}
+                        onClick={setColorMode}
+                      />
+                      <Themes />
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
               </ModalBody>
               <ModalFooter>more features coming soon!</ModalFooter>
             </ModalContent>

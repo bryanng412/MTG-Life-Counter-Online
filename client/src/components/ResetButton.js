@@ -13,6 +13,7 @@ import {
   useColorMode,
 } from '@chakra-ui/core'
 import SocketContext from '../context/socket'
+import ColorContext from '../context/color'
 
 const StyledArrow = styled(PopoverArrow)`
   &::before {
@@ -21,6 +22,7 @@ const StyledArrow = styled(PopoverArrow)`
 `
 
 const ResetButton = () => {
+  const colors = useContext(ColorContext)
   const { colorMode } = useColorMode()
   const { sendJsonMessage, room } = useContext(SocketContext)
 
@@ -35,6 +37,7 @@ const ResetButton = () => {
         zIndex={4}
         w="75%"
         _focus={{ boxShadow: 'none', outline: 'none' }}
+        backgroundColor={colors[colorMode].bg}
       >
         <StyledArrow colorMode={colorMode} />
         <PopoverCloseButton />

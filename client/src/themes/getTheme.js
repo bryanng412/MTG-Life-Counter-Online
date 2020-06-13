@@ -1,6 +1,6 @@
 import React from 'react'
 import { theme } from '@chakra-ui/core'
-import colors from './colors'
+import colors, { defaultColors } from './colors'
 import merge from 'lodash/merge'
 
 const customIcons = {
@@ -18,7 +18,7 @@ const customIcons = {
 
 const getTheme = colorTheme => ({
   ...theme,
-  colors: merge(theme.colors, colors[colorTheme] || {}),
+  colors: merge(colors[colorTheme] || defaultColors, theme.colors),
   icons: {
     ...theme.icons,
     ...customIcons,

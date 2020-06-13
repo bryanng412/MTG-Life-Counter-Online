@@ -9,10 +9,12 @@ import CommanderDamage from './CommanderDamage'
 import SocketContext from '../context/socket'
 import { doesPlayerMatch } from '../utils/players'
 import useLongPress from '../hooks/useLongPress'
+import ColorContext from '../context/color'
 
 const PlayerCard = ({ player: initialPlayer }) => {
-  const { id: socketId, sendJsonMessage, room } = useContext(SocketContext)
+  const colors = useContext(ColorContext)
   const { colorMode } = useColorMode()
+  const { id: socketId, sendJsonMessage, room } = useContext(SocketContext)
   const [showCmdrDamage, setShowCmdrDamage] = useState(false)
   const [storagePlayer = {}] = useLocalStorage('player')
   const [isLongPressing, setIsLongPressing] = useState(false)
@@ -25,6 +27,10 @@ const PlayerCard = ({ player: initialPlayer }) => {
     light: belongsToUser ? 'green.200' : 'white',
     dark: belongsToUser ? 'purple.800' : 'gray.700',
   }
+  const themedBg = belongsToUser
+    ? colors[colorMode].main
+    : colors[colorMode].sub
+  const themedColor = belongsToUser && colors[colorMode].bg
 
   useEffect(() => {
     if (belongsToUser && doesPlayerMatch(storagePlayer, player)) {
@@ -77,7 +83,8 @@ const PlayerCard = ({ player: initialPlayer }) => {
         base: belongsToUser ? '10rem' : '8rem',
         md: belongsToUser ? '12rem' : '10rem',
       }}
-      bg={bg[colorMode]}
+      bg={themedBg || bg[colorMode]}
+      color={themedColor}
       borderWidth="2px"
       rounded="lg"
       overflow="hidden"

@@ -7,9 +7,15 @@ import {
   AlertDescription,
 } from '@chakra-ui/core'
 
-const Toast = ({ colorMode, title, message, onClose, id }) => {
-  const bg = { light: 'green.500', dark: 'purple.900' }
-  const textColor = { light: 'white' }
+const Toast = ({ colorMode, colors, title, message, onClose, id }) => {
+  const bg = {
+    light: colors[colorMode].main || 'green.500',
+    dark: colors[colorMode].main || 'purple.900',
+  }
+  const textColor = {
+    light: colors[colorMode].text || 'white',
+    dark: colors[colorMode].text,
+  }
 
   return (
     <Alert

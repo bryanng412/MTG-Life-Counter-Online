@@ -187,5 +187,10 @@ const generateName = (): string => {
     separator: ' ',
     length: 2,
   }
-  return uniqueNamesGenerator(customConfig)
+
+  let name = uniqueNamesGenerator(customConfig)
+  while (name.length > 15) {
+    name = uniqueNamesGenerator(customConfig)
+  }
+  return name
 }

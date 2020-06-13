@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLocation, Redirect } from 'react-router-dom'
 import { useToast, useColorMode } from '@chakra-ui/core'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
@@ -9,6 +9,7 @@ import KeepAlive from '../components/KeepAlive'
 import ShareLink from '../components/ShareLink'
 import Toast from '../components/Toast'
 import SocketContext from '../context/socket'
+import ColorContext from '../context/color'
 import { useLocalStorage, writeStorage } from '@rehooks/local-storage'
 
 const ENDPOINT =
@@ -20,6 +21,7 @@ const Game = () => {
   const queryParams = new URLSearchParams(useLocation().search)
   const room = queryParams.get('room')
   const toast = useToast()
+  const colors = useContext(ColorContext)
   const { colorMode } = useColorMode()
   const [storagePlayer = {}] = useLocalStorage('player')
   const { name, life } = storagePlayer
@@ -50,6 +52,7 @@ const Game = () => {
               render: props => (
                 <Toast
                   colorMode={colorMode}
+                  colors={colors}
                   title={event === 'LEAVE' ? 'GG' : 'Challenger approaching!'}
                   message={message}
                   {...props}

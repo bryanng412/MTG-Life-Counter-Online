@@ -45,12 +45,12 @@ const EditableName = ({
             <>
               <EditableInput onBlur={null} />
               {isEditing ? (
-                <ButtonGroup justifyContent="center" size="sm">
+                <ButtonGroup size="sm">
                   <IconButton icon="check" onClick={onSubmit} />
                   <IconButton icon="close" onClick={onCancel} />
                 </ButtonGroup>
               ) : (
-                <Flex justifyContent="center">
+                <Flex mt="0.25rem" justifyContent="center">
                   <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
                 </Flex>
               )}
