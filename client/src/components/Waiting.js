@@ -1,17 +1,21 @@
 import React from 'react'
 import { Flex, Image, Text } from '@chakra-ui/core'
-import img from '../images/yuuki.png'
+import pngImg from '../images/yuuki.png'
+import webpImg from '../images/yuuki.webp'
 
 const Waiting = ({ message }) => (
   <Flex direction="column" justify="center" align="center" overflowX="auto">
-    <Image
-      alt="Konno Yuuki"
-      size="300px"
-      objectFit="cover"
-      src={img}
-      ml="5rem"
-      mb="1rem"
-    />
+    <picture style={{ marginBottom: '1rem' }}>
+      <source type="image/webp" srcSet={webpImg} />
+      <source type="image/png" srcSet={pngImg} />
+      <Image
+        alt="Konno Yuuki"
+        htmlWidth="250px"
+        htmlHeight="286px"
+        objectFit="cover"
+        src={pngImg}
+      />
+    </picture>
     {message && (
       <Text fontSize={{ base: 'xl', sm: '3xl' }} marginY="1rem">
         {message}
