@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const Animated = ({ children }) => (
+export default ({ children }) => (
   <motion.div
     style={{ position: 'absolute', width: '100%', height: '100%' }}
     initial={{ opacity: 0, x: -200 }}
@@ -15,5 +15,3 @@ const Animated = ({ children }) => (
     {children}
   </motion.div>
 )
-
-export default Animated

@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 import formDataEntries from 'form-data-entries'
 
-const Error = ({ id, showError }) => (
+const Error = ({ id }) => (
   <motion.div
     style={{
       position: 'absolute',
