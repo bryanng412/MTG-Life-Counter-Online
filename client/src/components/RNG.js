@@ -68,8 +68,11 @@ const RNG = () => {
           m="1rem"
           alignItems="center"
         >
-          <Text>Roll a number between 1 and {upperBound}</Text>
+          <Text id="slider_label" as="label">
+            Roll a number between 1 and {upperBound}
+          </Text>
           <Slider
+            aria-labelledby="slider_label"
             defaultValue={20}
             min={2}
             max={UPPER_BOUND}
