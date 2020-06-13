@@ -107,6 +107,7 @@ const PlayerCard = ({ player: initialPlayer }) => {
           <Animated>
             <Flex justify="center" align="center">
               <IconButton
+                aria-label="Subtract life"
                 size="sm"
                 icon="minus"
                 onClick={getLifeHandler()}
@@ -120,6 +121,7 @@ const PlayerCard = ({ player: initialPlayer }) => {
                 {life}
               </Text>
               <IconButton
+                aria-label="Add life"
                 size="sm"
                 icon="add"
                 onClick={getLifeHandler({ isPlus: true })}

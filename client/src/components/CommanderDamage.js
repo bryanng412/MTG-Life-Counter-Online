@@ -46,6 +46,7 @@ const CommanderDamage = ({ player, setPlayer }) => {
               <Flex key={id} justify="center" align="center">
                 <Text mr="1.5rem">{playerObj[id].name}</Text>
                 <IconButton
+                  aria-label="Subtract commander damage"
                   size="xs"
                   icon="minus"
                   onClick={getCmdrDmgHandler({ id })}
@@ -54,6 +55,7 @@ const CommanderDamage = ({ player, setPlayer }) => {
                   {cmdrDmg[id]}
                 </Text>
                 <IconButton
+                  aria-label="Add commander damage"
                   size="xs"
                   icon="add"
                   onClick={getCmdrDmgHandler({ id, isPlus: true })}

@@ -31,7 +31,7 @@ const ResetButton = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <IconButton icon="repeat" />
+        <IconButton aria-label="Reset game" icon="repeat" />
       </PopoverTrigger>
       <PopoverContent
         zIndex={4}

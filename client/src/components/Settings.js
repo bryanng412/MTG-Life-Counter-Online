@@ -81,6 +81,7 @@ const Settings = ({ inGame }) => {
           top={0}
           right={0}
           icon="settings"
+          aria-label="Settings"
           onClick={onOpen}
         />
       </Flex>
@@ -121,6 +122,9 @@ const Settings = ({ inGame }) => {
                       justifyContent="center"
                     >
                       <IconButton
+                        aria-label={`Switch to ${
+                          colorMode === 'light' ? 'dark' : 'light'
+                        } mode`}
                         icon={colorMode === 'light' ? 'moon' : 'sun'}
                         onClick={setColorMode}
                       />

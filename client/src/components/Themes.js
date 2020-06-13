@@ -18,9 +18,10 @@ const Themes = () => {
   }
 
   const getButtonProps = colorTheme => ({
+    ['aria-label']: `Switch to ${colorTheme} theme`,
     textTransform: 'capitalize',
     m: '.5rem',
-    type: '',
+    type: null,
     onClick: () => setTheme(colorTheme),
     backgroundColor: themeColors[colorTheme].buttonColor,
     color: themeColors[colorTheme].buttonText,

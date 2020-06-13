@@ -3,6 +3,7 @@ import { IconButton } from '@chakra-ui/core'
 
 export default ({ showCmdrDamage, ...rest }) => (
   <IconButton
+    aria-label={`${showCmdrDamage ? 'Hide' : 'Show'} commander damage`}
     position="absolute"
     top={1}
     right={1}

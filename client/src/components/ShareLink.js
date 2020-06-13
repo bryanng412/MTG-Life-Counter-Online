@@ -20,6 +20,7 @@ const ShareLink = () => {
       <Flex alignItems="center">
         <Text fontSize="sm">Send this link to friends!</Text>
         <IconButton
+          aria-label="Copy room link"
           onClick={onCopy}
           ml=".5rem"
           size="xs"

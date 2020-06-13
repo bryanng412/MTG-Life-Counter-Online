@@ -43,15 +43,28 @@ const EditableName = ({
           <EditablePreview whiteSpace="nowrap" />
           {editable && (
             <>
-              <EditableInput onBlur={null} />
+              <EditableInput aria-label="name" onBlur={null} />
               {isEditing ? (
                 <ButtonGroup size="sm">
-                  <IconButton icon="check" onClick={onSubmit} />
-                  <IconButton icon="close" onClick={onCancel} />
+                  <IconButton
+                    aria-label="Confirm name"
+                    icon="check"
+                    onClick={onSubmit}
+                  />
+                  <IconButton
+                    aria-label="Cancel"
+                    icon="close"
+                    onClick={onCancel}
+                  />
                 </ButtonGroup>
               ) : (
                 <Flex mt="0.25rem" justifyContent="center">
-                  <IconButton size="sm" icon="edit" onClick={onRequestEdit} />
+                  <IconButton
+                    aria-label="Edit name"
+                    size="sm"
+                    icon="edit"
+                    onClick={onRequestEdit}
+                  />
                 </Flex>
               )}
             </>

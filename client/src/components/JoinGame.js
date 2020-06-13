@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { writeStorage, useLocalStorage } from '@rehooks/local-storage'
 import formDataEntries from 'form-data-entries'
 
-const Error = ({ showError }) => (
+const Error = ({ id, showError }) => (
   <motion.div
     style={{
       position: 'absolute',
@@ -27,7 +27,7 @@ const Error = ({ showError }) => (
   >
     <Flex justifyContent="center" alignItems="center">
       <Icon color="#E53E3E" size="12px" name="info-outline" mr=".25rem" />
-      <Text color="#E53E3E" fontSize="sm">
+      <Text id={id} color="#E53E3E" fontSize="sm">
         Enter a room name
       </Text>
     </Flex>
@@ -81,6 +81,7 @@ const JoinGame = () => {
       as="form"
     >
       <Input
+        aria-label="name"
         variant="filled"
         name="name"
         value={name}
@@ -91,6 +92,8 @@ const JoinGame = () => {
         onFocus={() => setError(false)}
       />
       <Input
+        aria-label="room"
+        aria-describedby={showError ? 'room_error' : undefined}
         errorBorderColor="#E53E3E"
         variant="filled"
         name="room"
@@ -104,7 +107,9 @@ const JoinGame = () => {
         isInvalid={showError}
         required
       />
-      <AnimatePresence>{showError && <Error />}</AnimatePresence>
+      <AnimatePresence>
+        {showError && <Error id="room_error" />}
+      </AnimatePresence>
       <Button
         d="block"
         mx="auto"
