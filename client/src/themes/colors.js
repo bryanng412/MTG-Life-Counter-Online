@@ -32,19 +32,19 @@ export const themeColors = {
   },
   carbon: {
     bg: '#313131',
-    main: '#C33B00',
+    main: '#DD5500',
     sub: '#616161',
     text: '#f5e6c8',
     buttonColor: '#313131',
-    buttonText: '#C33B00',
+    buttonText: '#DD5500',
   },
   nautilus: {
     bg: '#132237',
-    main: '#9F6B00',
+    main: '#B88400',
     sub: '#0b4c6c',
     text: '#1cbaa',
     buttonColor: '#132237',
-    buttonText: '#9F6B00',
+    buttonText: '#B88400',
   },
   nord: {
     bg: '#242933',
@@ -53,6 +53,7 @@ export const themeColors = {
     text: '#d8dee9',
     buttonColor: '#242933',
     buttonText: '#d8dee9',
+    toastText: '#242933',
   },
   blink: {
     bg: '#18181a',

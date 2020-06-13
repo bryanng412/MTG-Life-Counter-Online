@@ -13,8 +13,8 @@ const Toast = ({ colorMode, colors, title, message, onClose, id }) => {
     dark: colors[colorMode].main || 'purple.900',
   }
   const textColor = {
-    light: colors[colorMode].text || 'white',
-    dark: colors[colorMode].text,
+    light: colors[colorMode].toastText || colors[colorMode].text || 'white',
+    dark: colors[colorMode].toastText || colors[colorMode].text,
   }
 
   return (
