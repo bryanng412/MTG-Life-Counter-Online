@@ -66,8 +66,8 @@ const Settings = ({ inGame }) => {
             }
             border-bottom-color: ${activatedTabBorderBottomColor} !important;
           }
-
-          button[role="tab"] {
+          
+          button[role="tab"], button[aria-label="Close"] {
             background-color: transparent;
           }
         `}
