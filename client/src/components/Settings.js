@@ -18,6 +18,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Divider,
 } from '@chakra-ui/core'
 import ResetButton from './ResetButton'
 import RNG from './RNG'
@@ -123,6 +124,7 @@ const Settings = ({ inGame }) => {
                         icon={colorMode === 'light' ? 'moon' : 'sun'}
                         onClick={setColorMode}
                       />
+                      <Divider w="100%" />
                       <Themes />
                     </TabPanel>
                   </TabPanels>

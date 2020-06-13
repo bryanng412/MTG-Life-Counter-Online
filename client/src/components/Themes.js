@@ -27,7 +27,7 @@ const Themes = () => {
   })
 
   return (
-    <Flex mt="1rem" justifyContent="center" flexWrap="wrap">
+    <Flex justifyContent="center" flexWrap="wrap">
       {Object.keys(themeColors).map(colorName => (
         <Button key={colorName} {...getButtonProps(colorName)}>
           {colorName}

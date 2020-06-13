@@ -38,7 +38,7 @@ const CommanderDamage = ({ player, setPlayer }) => {
       align="center"
     >
       {Object.keys(cmdrDmg).length === 0 ? (
-        <Text>No other players</Text>
+        <Text>There's no one else here</Text>
       ) : (
         Object.keys(cmdrDmg).map(
           id =>
