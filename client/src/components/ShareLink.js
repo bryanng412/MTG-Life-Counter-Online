@@ -5,7 +5,7 @@ import SocketContext from '../context/socket'
 const ShareLink = () => {
   const { room } = useContext(SocketContext)
   const { origin, pathname } = window.location
-  const link = `${origin}/game?room=${room}`
+  const link = `${origin}/game?room=${encodeURIComponent(room)}`
   const { onCopy, hasCopied } = useClipboard(link)
 
   if (pathname === '/') return <></>
