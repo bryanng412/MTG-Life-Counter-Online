@@ -52,13 +52,13 @@ const Settings = ({ inGame }) => {
             color: ${colors[colorMode].text}
           }
 
-          button[type="button"], button[type="submit"] {
+          button:not([role="tab"]):not([aria-label="Close"]):not([type="reset"])[type="button"], button[type="submit"] {
             ${
               colors[colorMode].sub &&
               `background-color: ${colors[colorMode].sub};`
             }
           }
-          
+
           button[aria-selected=true] {
             ${
               colors[colorMode].main &&
@@ -67,9 +67,6 @@ const Settings = ({ inGame }) => {
             border-bottom-color: ${activatedTabBorderBottomColor} !important;
           }
           
-          button[role="tab"], button[aria-label="Close"] {
-            background-color: transparent;
-          }
         `}
       />
       <Flex justify="center" pos="relative">

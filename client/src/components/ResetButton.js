@@ -46,6 +46,7 @@ const ResetButton = () => {
         </PopoverBody>
         <PopoverFooter border="0" d="flex" justifyContent="center">
           <Button
+            type="reset"
             onClick={onClick}
             size="sm"
             color="#FFFFFF"
