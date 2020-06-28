@@ -8,7 +8,7 @@ import CommanderButton from './CommanderButton'
 import CommanderDamage from './CommanderDamage'
 import SocketContext from '../context/socket'
 import { doesPlayerMatch } from '../utils/players'
-// import useLongPress from '../hooks/useLongPress'
+import useLongPress from '../hooks/useLongPress'
 import ColorContext from '../context/color'
 import debounce from 'lodash/debounce'
 
@@ -18,7 +18,7 @@ const PlayerCard = ({ player: initialPlayer }) => {
   const { id: socketId, sendJsonMessage, room } = useContext(SocketContext)
   const [showCmdrDamage, setShowCmdrDamage] = useState(false)
   const [storagePlayer = {}] = useLocalStorage('player')
-  // const [isLongPressing, setIsLongPressing] = useState(false)
+  const [isLongPressing, setIsLongPressing] = useState(false)
 
   const [player, setPlayer] = useState(initialPlayer)
   const { name, life: initialLife, id } = player
@@ -40,9 +40,9 @@ const PlayerCard = ({ player: initialPlayer }) => {
   }, [life])
 
   const getLifeHandler = ({ isPlus, lifeDelta = 1 } = {}) => () => {
-    // if (isLongPressing && lifeDelta === 1) {
-    //   return
-    // }
+    if (isLongPressing && lifeDelta === 1) {
+      return
+    }
 
     const newLife = isPlus ? life + lifeDelta : life - lifeDelta
     setLife(newLife)
@@ -61,17 +61,17 @@ const PlayerCard = ({ player: initialPlayer }) => {
     debounce(sendMessage, 1000)()
   }
 
-  // const { isLongPressing: isAddPressing, ...addLifeLongPress } = useLongPress(
-  //   getLifeHandler({ isPlus: true, lifeDelta: 10 })
-  // )
-  // const {
-  //   isLongPressing: isMinusPressing,
-  //   ...minusLifeLongPress
-  // } = useLongPress(getLifeHandler({ lifeDelta: 10 }))
+  const { isLongPressing: isAddPressing, ...addLifeLongPress } = useLongPress(
+    getLifeHandler({ isPlus: true, lifeDelta: 10 })
+  )
+  const {
+    isLongPressing: isMinusPressing,
+    ...minusLifeLongPress
+  } = useLongPress(getLifeHandler({ lifeDelta: 10 }))
 
-  // useEffect(() => {
-  //   setTimeout(() => setIsLongPressing(isAddPressing || isMinusPressing), 100)
-  // }, [isAddPressing, isMinusPressing])
+  useEffect(() => {
+    setTimeout(() => setIsLongPressing(isAddPressing || isMinusPressing), 100)
+  }, [isAddPressing, isMinusPressing])
 
   const onNameSubmit = name => {
     sendJsonMessage({
@@ -115,7 +115,7 @@ const PlayerCard = ({ player: initialPlayer }) => {
                 size="sm"
                 icon="minus"
                 onClick={getLifeHandler()}
-                // {...minusLifeLongPress}
+                {...minusLifeLongPress}
               />
               <Text
                 mx={['1rem', '1rem', '1.5rem', '1.5rem']}
@@ -129,7 +129,7 @@ const PlayerCard = ({ player: initialPlayer }) => {
                 size="sm"
                 icon="add"
                 onClick={getLifeHandler({ isPlus: true })}
-                // {...addLifeLongPress}
+                {...addLifeLongPress}
               />
             </Flex>
             <EditableName
