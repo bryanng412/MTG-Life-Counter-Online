@@ -10,7 +10,6 @@ import SocketContext from '../context/socket'
 import { doesPlayerMatch } from '../utils/players'
 import useLongPress from '../hooks/useLongPress'
 import ColorContext from '../context/color'
-import debounce from 'lodash/debounce'
 
 const PlayerCard = ({ player: initialPlayer }) => {
   const colors = useContext(ColorContext)
@@ -21,8 +20,7 @@ const PlayerCard = ({ player: initialPlayer }) => {
   const [isLongPressing, setIsLongPressing] = useState(false)
 
   const [player, setPlayer] = useState(initialPlayer)
-  const { name, life: initialLife, id } = player
-  const [life, setLife] = useState(initialLife)
+  const { name, life, id } = player
   const belongsToUser = socketId === id
   const bg = {
     light: belongsToUser ? 'green.200' : 'white',
@@ -45,20 +43,17 @@ const PlayerCard = ({ player: initialPlayer }) => {
     }
 
     const newLife = isPlus ? life + lifeDelta : life - lifeDelta
-    setLife(newLife)
+    setPlayer({ ...player, life: newLife })
 
     if (belongsToUser) {
       writeStorage('player', { ...storagePlayer, life: newLife })
     }
 
-    const sendMessage = () =>
-      sendJsonMessage({
-        event: 'UPDATE_SINGLE_PLAYER',
-        room,
-        payload: { id, life: newLife },
-      })
-
-    debounce(sendMessage, 1000)()
+    sendJsonMessage({
+      event: 'UPDATE_SINGLE_PLAYER',
+      room,
+      payload: { id, life: newLife },
+    })
   }
 
   const { isLongPressing: isAddPressing, ...addLifeLongPress } = useLongPress(
