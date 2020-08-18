@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import styled from '@emotion/styled'
 import {
   Popover,
   PopoverTrigger,
@@ -9,28 +10,48 @@ import {
   PopoverCloseButton,
   IconButton,
   Button,
+  useColorMode,
 } from '@chakra-ui/core'
+import SocketContext from '../context/socket'
+import ColorContext from '../context/color'
 
-const ResetButton = ({ socket }) => {
-  const onClick = () => socket.emit('reset')
+const StyledArrow = styled(PopoverArrow)`
+  &::before {
+    box-shadow: -1px -1px 1px 0 ${({ colorMode }) => (colorMode === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255,255,255,0.16)')} !important;
+  }
+`
+
+const ResetButton = () => {
+  const colors = useContext(ColorContext)
+  const { colorMode } = useColorMode()
+  const { sendJsonMessage, room } = useContext(SocketContext)
+
+  const onClick = () => sendJsonMessage({ event: 'RESET', room })
 
   return (
     <Popover>
       <PopoverTrigger>
-        <IconButton icon="repeat" />
+        <IconButton aria-label="Reset game" icon="repeat" />
       </PopoverTrigger>
-      <PopoverContent zIndex={4} w="75%">
-        <PopoverArrow />
+      <PopoverContent
+        zIndex={4}
+        w="75%"
+        _focus={{ boxShadow: 'none', outline: 'none' }}
+        backgroundColor={colors[colorMode].bg}
+      >
+        <StyledArrow colorMode={colorMode} />
         <PopoverCloseButton />
         <PopoverBody textAlign="center">
           Are you sure you want to reset the game?
         </PopoverBody>
         <PopoverFooter border="0" d="flex" justifyContent="center">
           <Button
+            type="reset"
             onClick={onClick}
             size="sm"
-            bg="red.500"
-            _hover={{ bg: 'red.600' }}
+            color="#FFFFFF"
+            bg="#E53E3E"
+            _hover={{ bg: '#C53030' }}
           >
             Reset
           </Button>

@@ -8,14 +8,7 @@ const flat = {
   transition: { delay: 0.3 },
 }
 
-const PlayerItem = ({
-  player,
-  setPosition,
-  moveItem,
-  i,
-  playerList,
-  updatePlayers,
-}) => {
+const PlayerItem = ({ player, setPosition, moveItem, i, updatePlayers }) => {
   const [isDragging, setDragging] = useState(false)
   const ref = useRef(null)
   const dragOriginY = useMotionValue(0)
@@ -50,7 +43,7 @@ const PlayerItem = ({
         return !isDragging
       }}
     >
-      <PlayerCard player={player} playerList={playerList} />
+      <PlayerCard player={player} />
     </motion.li>
   )
 }
