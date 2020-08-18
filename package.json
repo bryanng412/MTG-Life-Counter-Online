@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/bryanng412/MTG-Life-Counter-Online#readme",
   "devDependencies": {
-    "concurrently": "^5.2.0",
+    "concurrently": "^5.3.0",
     "eslint": "6.6.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.7",
