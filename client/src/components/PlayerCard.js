@@ -38,7 +38,8 @@ const PlayerCard = ({ player: initialPlayer }) => {
     // eslint-disable-next-line
   }, [life])
 
-  const getLifeHandler = ({ isPlus, lifeDelta = 1 } = {}) => () => {
+  const getLifeHandler = ({ isPlus, lifeDelta = 1 } = {}) => e => {
+    e.preventDefault()
     // if (isLongPressing && lifeDelta === 1) {
     //   return
     // }
