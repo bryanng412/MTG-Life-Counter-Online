@@ -37,7 +37,7 @@
     "express": "^4.17.1",
     "unique-names-generator": "^4.2.0",
     "uuidv4": "^6.1.0",
-    "ws": "^7.3.0"
+    "ws": "^7.4.6"
   },
   "engines": {
     "node": "<=12.14.0"
